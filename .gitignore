@@ -7,3 +7,6 @@ firmware/build/
 fp-info-cache
 ~*.lck
 .DS_Store
+
+# routing jars are fetched, not versioned (see docs/plan.md)
+tools/*.jar
