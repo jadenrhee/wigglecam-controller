@@ -1,209 +1,209 @@
-WARNING: KICAD8_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap>:488]
-WARNING: KICAD6_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap>:488]
-WARNING: KICAD7_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap>:488]
-WARNING: KICAD9_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap>:488]
-WARNING: KICAD_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap>:488]
+WARNING: KICAD8_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap>:488]
+WARNING: KICAD6_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap>:488]
+WARNING: KICAD7_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap>:488]
+WARNING: KICAD9_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap>:488]
+WARNING: KICAD_SYMBOL_DIR environment variable is missing, so the default KiCad symbol libraries won't be searched. @ [/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap_external>:1026=>/Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap>:488]
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: fp-lib-table file was not found. Component footprints are not available.
 WARNING: Missing tag on PTC_3A instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:48.
-WARNING: Random tag 9BlXfdeVAo generated for PTC_3A.
+WARNING: Random tag M81_2zKybZ generated for PTC_3A.
 WARNING: Missing tag on AO3401A instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:49.
-WARNING: Random tag CmSBtQUV92 generated for AO3401A.
+WARNING: Random tag gNcGylwrnd generated for AO3401A.
 WARNING: Missing tag on SS34 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:50.
-WARNING: Random tag qHdhFNM7Ss generated for SS34.
+WARNING: Random tag j68zAkpGOx generated for SS34.
 WARNING: Missing tag on SS34 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:50.
-WARNING: Random tag WFIoO3valj generated for SS34.
+WARNING: Random tag 74z_bKQgGL generated for SS34.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 7Ab7LBilB2 generated for C.
+WARNING: Random tag a_qsmpfz5Z generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag EgTVsTGtFt generated for C.
+WARNING: Random tag mZVnwUrMes generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag xUcVg49wXO generated for C.
+WARNING: Random tag kTWPLqAECx generated for C.
 WARNING: Missing tag on AP2112K-3.3 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:71.
-WARNING: Random tag pVojixR39z generated for AP2112K-3.3.
+WARNING: Random tag wJLGNuFKjl generated for AP2112K-3.3.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag WziwAjlnpc generated for C.
+WARNING: Random tag aNvo_u1T8k generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag wwxVIcNauz generated for C.
+WARNING: Random tag _4L_an1Ipu generated for C.
 WARNING: Missing tag on RP2040 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:83.
-WARNING: Random tag y7Qk_1ibrY generated for RP2040.
+WARNING: Random tag 6msmhnjh28 generated for RP2040.
 WARNING: Missing tag on W25Q128JVSIQ instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:84.
-WARNING: Random tag vSD065MkOS generated for W25Q128JVSIQ.
+WARNING: Random tag TQfeSOMhxk generated for W25Q128JVSIQ.
 WARNING: Missing tag on ABM8-272-T3 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:85.
-WARNING: Random tag rM99OlI1YU generated for ABM8-272-T3.
+WARNING: Random tag TsO7LL657X generated for ABM8-272-T3.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag UCMDIBzk7W generated for C.
+WARNING: Random tag k7TQamsIi0 generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag uhtFGDhRq2 generated for C.
+WARNING: Random tag oSPgVPAdpN generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag viLJxSL0TV generated for C.
+WARNING: Random tag jO_F69zV_R generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag _dT6FNPOUI generated for C.
+WARNING: Random tag kInGqKD0H3 generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag hDGxrpQ3UZ generated for C.
+WARNING: Random tag gmgL8WU0xp generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag osKwd0eZu3 generated for C.
+WARNING: Random tag _kNnqvha5P generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag kHHiQiRgBZ generated for C.
+WARNING: Random tag W2jinTMjJH generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag nk5TTaE7j_ generated for C.
+WARNING: Random tag YMIYbSAHcb generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag sNQBfRc_z1 generated for C.
+WARNING: Random tag epHubqsFvL generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag Sho2bpqDOc generated for C.
+WARNING: Random tag rSmhkjVzY9 generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag swoWM5VlvH generated for C.
+WARNING: Random tag ujMa4Eaed3 generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag rvzuYd6qVn generated for C.
+WARNING: Random tag bpN4Bi5UYb generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 9RXqbEnSis generated for C.
+WARNING: Random tag KeWKyyFAcT generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 6hPCxgC7Ke generated for R.
+WARNING: Random tag 3Kt6R_JVQa generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag fieMyURkxZ generated for C.
+WARNING: Random tag IFO_YuTzZZ generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag K9bMUxDNJs generated for C.
+WARNING: Random tag bCfcY4RyR7 generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag of_jph5Nnz generated for R.
+WARNING: Random tag tN1IhwH_Xo generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag nLAsA8_2sZ generated for C.
+WARNING: Random tag cajA9PjG7o generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag dujbKxeTNn generated for R.
+WARNING: Random tag Yo9zJUZ38R generated for R.
 WARNING: Missing tag on TS-1187A instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:158.
-WARNING: Random tag 70W1F_e20U generated for TS-1187A.
+WARNING: Random tag l7T9qdCPyN generated for TS-1187A.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag oh7PkM7a3L generated for R.
+WARNING: Random tag 1HPNDl7cx1 generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 7JPQCXHdA3 generated for C.
+WARNING: Random tag dReWl5tHTh generated for C.
 WARNING: Missing tag on TS-1187A instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:167.
-WARNING: Random tag dRbMF8_d6g generated for TS-1187A.
+WARNING: Random tag BXntnfZMy3 generated for TS-1187A.
 WARNING: Missing tag on SWD instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:176.
-WARNING: Random tag eMETilFdtl generated for SWD.
+WARNING: Random tag HEANrMYpSY generated for SWD.
 WARNING: Missing tag on TYPE-C-31-M-12 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:188.
-WARNING: Random tag qvv2gxakGp generated for TYPE-C-31-M-12.
+WARNING: Random tag lthx5Yy1Yc generated for TYPE-C-31-M-12.
 WARNING: Missing tag on USBLC6-2SC6 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:189.
-WARNING: Random tag buSgXJ5zcy generated for USBLC6-2SC6.
+WARNING: Random tag XGBRS6v8BK generated for USBLC6-2SC6.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag pazRzlCTUf generated for R.
+WARNING: Random tag 1c6vWa2DV2 generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag HrGMANjhub generated for R.
+WARNING: Random tag SVCQun3otu generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag TNl9bMGePf generated for R.
+WARNING: Random tag bQP3PGLyPO generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag aIBw8KdRYD generated for R.
-WARNING: Missing tag on LM358DR2G instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:227.
-WARNING: Random tag IlA17DwVkA generated for LM358DR2G.
+WARNING: Random tag FlyNgXUJsE generated for R.
+WARNING: Missing tag on LM358DR2G instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:236.
+WARNING: Random tag yZuf6tRG9e generated for LM358DR2G.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 5J8vmA4Lly generated for C.
+WARNING: Random tag T6FONnF8p_ generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag HF85esde8y generated for R.
+WARNING: Random tag VTxqvSzb7D generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag _lahyht6AE generated for R.
+WARNING: Random tag quq2FiORCW generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag ISlgXbeoLX generated for C.
+WARNING: Random tag kt8kzBciTG generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag LA_cghlj4_ generated for R.
+WARNING: Random tag Yh97qlrkS9 generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag MnbzUyARbg generated for R.
-WARNING: Missing tag on AO3400A instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:243.
-WARNING: Random tag OhTxBHS74l generated for AO3400A.
+WARNING: Random tag RG1I5aqcsA generated for R.
+WARNING: Missing tag on AO3400A instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:252.
+WARNING: Random tag 7nvG4JkU1i generated for AO3400A.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag F4nbz9yfrL generated for R.
+WARNING: Random tag h581EuHw8E generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag bl6zRUUXLP generated for R.
+WARNING: Random tag 2VheOE6k92 generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 8TwLAVP8fF generated for R.
+WARNING: Random tag 8M2NxgJWka generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag fio2n9yIcy generated for C.
+WARNING: Random tag rDhL3scXRZ generated for C.
 WARNING: Missing tag on LED1 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 3eLEZ3LtO3 generated for LED1.
-WARNING: Missing tag on AO3400A instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:243.
-WARNING: Random tag Dr9MlZQvPJ generated for AO3400A.
+WARNING: Random tag NjojGn19Dr generated for LED1.
+WARNING: Missing tag on AO3400A instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:252.
+WARNING: Random tag xr0Wkhiutu generated for AO3400A.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag V3pZKyq1qx generated for R.
+WARNING: Random tag UpRiclFSpn generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag hkDnzvwTKU generated for R.
+WARNING: Random tag T_JUUOnikk generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag ZkSeXmc1xz generated for R.
+WARNING: Random tag bJjjubdZvt generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag kuBUbPgS9J generated for C.
+WARNING: Random tag VuEwwMOqMA generated for C.
 WARNING: Missing tag on LED2 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag DCrvNwoahf generated for LED2.
+WARNING: Random tag OiEbKrqeeI generated for LED2.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 7KKWj1vyMv generated for C.
+WARNING: Random tag egWmXVaKIU generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 73H7nvvIQj generated for C.
+WARNING: Random tag joLxyuUvwY generated for C.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag AY06_4Qvtc generated for C.
-WARNING: Missing tag on INA219AIDCNR instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:272.
-WARNING: Random tag o3NDfg6fP0 generated for INA219AIDCNR.
+WARNING: Random tag RDMtfu9n2j generated for C.
+WARNING: Missing tag on INA219AIDCNR instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:281.
+WARNING: Random tag EoYsjaghPz generated for INA219AIDCNR.
 WARNING: Missing tag on R_shunt instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag TjPEz4wAnx generated for R_shunt.
+WARNING: Random tag Uvkcvtwj0v generated for R_shunt.
 WARNING: Missing tag on VBAT_IN instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 3qoyBo29Nr generated for VBAT_IN.
+WARNING: Random tag SgRm3r9PWB generated for VBAT_IN.
 WARNING: Missing tag on VBAT_OUT instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag SgNX5zfNpR generated for VBAT_OUT.
+WARNING: Random tag 83lbGZSdHe generated for VBAT_OUT.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag TlycWZ4Yw_ generated for C.
+WARNING: Random tag GdfTvtG1rK generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag jg4sn8pO5O generated for R.
+WARNING: Random tag mluXQGQ66c generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag R9C2PYG2oC generated for R.
+WARNING: Random tag cMhkmosMbf generated for R.
 WARNING: Missing tag on SHUTTER instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag sC2f3KYcfF generated for SHUTTER.
-WARNING: Missing tag on PESD5V0S1BA instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:302.
-WARNING: Random tag X45wnBD8jB generated for PESD5V0S1BA.
+WARNING: Random tag vlbIGug07b generated for SHUTTER.
+WARNING: Missing tag on PESD5V0S1BA instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:311.
+WARNING: Random tag sVsCgQVozs generated for PESD5V0S1BA.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag ljF91WfAGO generated for R.
+WARNING: Random tag 9uJJwBX0tm generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag fA_uDNPji1 generated for R.
+WARNING: Random tag A19IloZ9Bi generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag vJCRVywQsy generated for C.
-WARNING: Missing tag on EC11E18244AU instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:311.
-WARNING: Random tag gGJ8XPTsLc generated for EC11E18244AU.
+WARNING: Random tag ASPf4sG7jn generated for C.
+WARNING: Missing tag on EC11E18244AU instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:320.
+WARNING: Random tag nuD0G9qEk5 generated for EC11E18244AU.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag msCG2KcCUx generated for R.
+WARNING: Random tag FnU6RMaZr2 generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 2AGizMksNq generated for R.
+WARNING: Random tag Y1DrkkEeQT generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 6g9eVUV__f generated for C.
+WARNING: Random tag _Yw_LyTpNs generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag ykoHj07Wgq generated for R.
+WARNING: Random tag DSOmzoFczK generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag MO3f1zyQ_W generated for R.
+WARNING: Random tag SSbYuZCkRg generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag U6DoDFncNR generated for C.
+WARNING: Random tag rL3O7oHO79 generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag BXoLY8Mrie generated for R.
+WARNING: Random tag 7KBuMHURT6 generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag Q1FsTuG20q generated for R.
+WARNING: Random tag UPyiaCBo9L generated for R.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag zxRs9aU3KB generated for C.
-WARNING: Missing tag on WS2812B instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:324.
-WARNING: Random tag d9U2n6pKkB generated for WS2812B.
-WARNING: Missing tag on 1N4148WS instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:325.
-WARNING: Random tag U88w2MfvqA generated for 1N4148WS.
+WARNING: Random tag AwbEDJZrPa generated for C.
+WARNING: Missing tag on WS2812B instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:333.
+WARNING: Random tag frZpecg1wB generated for WS2812B.
+WARNING: Missing tag on 1N4148WS instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:334.
+WARNING: Random tag 9MsGZGJ8yJ generated for 1N4148WS.
 WARNING: Missing tag on C instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag QowoNFqn8x generated for C.
+WARNING: Random tag R2qly7ruCM generated for C.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag nMJR2nCFrB generated for R.
-WARNING: Missing tag on LED_GREEN instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:340.
-WARNING: Random tag MP1iWS7sND generated for LED_GREEN.
+WARNING: Random tag mznOEgOyJg generated for R.
+WARNING: Missing tag on LED_GREEN instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:349.
+WARNING: Random tag zTiKfgn2Bx generated for LED_GREEN.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag HUBt1L43TC generated for R.
-WARNING: Missing tag on PI_HEADER_2x6 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:349.
-WARNING: Random tag sDxsbC_EoA generated for PI_HEADER_2x6.
+WARNING: Random tag m03e2A6LUX generated for R.
+WARNING: Missing tag on PI_HEADER_2x6 instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/circuit.py:358.
+WARNING: Random tag dHs7KBTP9Y generated for PI_HEADER_2x6.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag dPfeieUuqw generated for R.
+WARNING: Random tag Q4TvHEjdhn generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag VakVSg36fn generated for R.
+WARNING: Random tag 2tEWvRihf_ generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag 5EyitX4MmF generated for R.
+WARNING: Random tag 4gUvicy2nZ generated for R.
 WARNING: Missing tag on R instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/parts.py:28.
-WARNING: Random tag QwP3iayEM_ generated for R.
-WARNING: Missing tag on  instantiated at /Users/jadenrhee/wigglecam-controller/hardware/skidl/<frozen importlib._bootstrap>:488.
+WARNING: Random tag yeRE0sofbc generated for R.
+WARNING: Missing tag on  instantiated at /Users/jadenrhee/wigglecam-controller/<frozen importlib._bootstrap>:488.
 INFO: 201 warnings found while generating netlist.
 INFO: 0 errors found while generating netlist.
 

@@ -1,0 +1,16 @@
+; WS2812 serial shift-out. Standard single-wire NRZ timing:
+; bit period 1.25 us at 800 kHz; '1' = long high, '0' = short high.
+; T1=2, T2=5, T3=3 cycles at 8 MHz (0.25/0.625/0.375 us).
+
+.program ws2812
+.side_set 1
+
+.wrap_target
+bitloop:
+    out x, 1        side 0 [2]
+    jmp !x do_zero  side 1 [1]
+do_one:
+    jmp bitloop     side 1 [4]
+do_zero:
+    nop             side 0 [4]
+.wrap

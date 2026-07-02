@@ -151,11 +151,13 @@ def mcu_core():
     r_cs = P.R("10k"); r_cs[1] += qspi["CS"]; r_cs[2] += V33
 
     # BOOTSEL: button pulls QSPI_SS low at reset (guide §2.4).
-    # TS-1187A pads 1/2 and 3/4 are the same contact internally —
-    # wiring both matches the part and gives routing two entries.
+    # Diagonal pads only: on a 4-leg tact, diagonally opposite legs are
+    # on opposite poles for both internal pairing conventions, so this
+    # wiring is correct without trusting the pairing drawing. Pads 2/3
+    # are soldered for mechanics but carry no net.
     bootsel = P.TACT()
-    bootsel[1] += qspi["CS"]; bootsel[2] += qspi["CS"]
-    bootsel[3] += GND; bootsel[4] += GND
+    bootsel[1] += qspi["CS"]; bootsel[4] += GND
+    bootsel[2] += NC; bootsel[3] += NC
 
     # RUN: 10 k pullup + button to GND + 100 nF debounce
     run = Net("RUN")
@@ -163,8 +165,8 @@ def mcu_core():
     r_run = P.R("10k"); r_run[1] += run; r_run[2] += V33
     c_run = P.C("100nF"); c_run[1] += run; c_run[2] += GND
     btn_run = P.TACT()
-    btn_run[1] += run; btn_run[2] += run
-    btn_run[3] += GND; btn_run[4] += GND
+    btn_run[1] += run; btn_run[4] += GND     # diagonal pads, as above
+    btn_run[2] += NC; btn_run[3] += NC
 
     # spare GPIOs — deliberately unused (ERC-visible intent)
     for g in (8, 9, 14, 15, 17, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29):
@@ -196,16 +198,25 @@ def usb(u):
     j["SBU1"] += NC
     j["SBU2"] += NC
 
-    # connector → ESD (flow-through) → series R → MCU
+    # connector → ESD (flow-through) → series R → MCU.
+    # Channel assignment follows board geometry so the pair never
+    # crosses: DP is the WEST line end-to-end (J2.A6 west pad → U4
+    # pin1/6 west channel → U2.47 west pin); DM is the EAST line.
     dp_conn, dm_conn = Net("USB_DP_CONN"), Net("USB_DM_CONN")
     j["DP1"] += dp_conn; j["DP2"] += dp_conn
     j["DM1"] += dm_conn; j["DM2"] += dm_conn
-    esd["IO1"] += dm_conn
-    esd["IO2"] += dp_conn
+    esd["IO1"] += dp_conn
+    esd["IO2"] += dm_conn
     esd["VBUS"] += VBUS
     esd["GND"] += GND
-    r_dp = P.R("27.4R"); esd["IO2B"] & r_dp & u["USB_DP"]
-    r_dm = P.R("27.4R"); esd["IO1B"] & r_dm & u["USB_DM"]
+    dp_esd, dp_mcu = Net("USB_DP_ESD"), Net("USB_DP")
+    dm_esd, dm_mcu = Net("USB_DM_ESD"), Net("USB_DM")
+    r_dp = P.R("27.4R")
+    esd["IO1B"] += dp_esd; r_dp[1] += dp_esd
+    r_dp[2] += dp_mcu; u["USB_DP"] += dp_mcu
+    r_dm = P.R("27.4R")
+    esd["IO2B"] += dm_esd; r_dm[1] += dm_esd
+    r_dm[2] += dm_mcu; u["USB_DM"] += dm_mcu
 
 
 

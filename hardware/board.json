@@ -156,7 +156,7 @@
     "34": "WS_DIN",
     "35": "__NOCONNECT",
     "36": "__NOCONNECT",
-    "37": "N$15",
+    "37": "N$11",
     "38": "__NOCONNECT",
     "39": "__NOCONNECT",
     "40": "__NOCONNECT",
@@ -165,8 +165,8 @@
     "43": "+3V3",
     "44": "+3V3",
     "45": "VREG_1V1",
-    "46": "N$8",
-    "47": "N$6",
+    "46": "USB_DM",
+    "47": "USB_DP",
     "48": "+3V3",
     "49": "+3V3",
     "50": "VREG_1V1",
@@ -183,7 +183,7 @@
    "ref": "U3",
    "name": "W25Q128JVSIQ",
    "value": "W25Q128JVSIQ",
-   "footprint": "Package_SO:SOIC-8_5.23x5.23mm_P1.27mm",
+   "footprint": "Package_SO:SOIC-8_5.3x5.3mm_P1.27mm",
    "lcsc": "C97521",
    "pads": {
     "1": "QSPI_SS",
@@ -426,8 +426,8 @@
    "lcsc": "C318884",
    "pads": {
     "1": "QSPI_SS",
-    "2": "QSPI_SS",
-    "3": "GND",
+    "2": "__NOCONNECT",
+    "3": "__NOCONNECT",
     "4": "GND"
    }
   },
@@ -461,8 +461,8 @@
    "lcsc": "C318884",
    "pads": {
     "1": "RUN",
-    "2": "RUN",
-    "3": "GND",
+    "2": "__NOCONNECT",
+    "3": "__NOCONNECT",
     "4": "GND"
    }
   },
@@ -486,18 +486,22 @@
    "lcsc": "C165948",
    "pads": {
     "A1": "GND",
+    "A12": "GND",
     "A4": "VBUS",
+    "A9": "VBUS",
     "A5": "N$3",
     "A6": "USB_DP_CONN",
     "A7": "USB_DM_CONN",
     "A8": "__NOCONNECT",
     "B1": "GND",
+    "B12": "GND",
     "B4": "VBUS",
+    "B9": "VBUS",
     "B5": "N$4",
     "B6": "USB_DP_CONN",
     "B7": "USB_DM_CONN",
     "B8": "__NOCONNECT",
-    "S1": "GND"
+    "SH": "GND"
    }
   },
   {
@@ -507,12 +511,12 @@
    "footprint": "Package_TO_SOT_SMD:SOT-23-6",
    "lcsc": "C7519",
    "pads": {
-    "1": "USB_DM_CONN",
+    "1": "USB_DP_CONN",
     "2": "GND",
-    "3": "USB_DP_CONN",
-    "4": "N$5",
+    "3": "USB_DM_CONN",
+    "4": "USB_DM_ESD",
     "5": "VBUS",
-    "6": "N$7"
+    "6": "USB_DP_ESD"
    }
   },
   {
@@ -544,8 +548,8 @@
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$5",
-    "2": "N$6"
+    "1": "USB_DP_ESD",
+    "2": "USB_DP"
    }
   },
   {
@@ -555,8 +559,8 @@
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$7",
-    "2": "N$8"
+    "1": "USB_DM_ESD",
+    "2": "USB_DM"
    }
   },
   {
@@ -566,13 +570,13 @@
    "footprint": "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
    "lcsc": "C7950",
    "pads": {
-    "1": "N$9",
+    "1": "N$5",
     "2": "SENSE1",
     "3": "VREF",
     "4": "GND",
     "5": "VREF",
     "6": "SENSE2",
-    "7": "N$12",
+    "7": "N$8",
     "8": "VSYS"
    }
   },
@@ -649,9 +653,9 @@
    "footprint": "Package_TO_SOT_SMD:SOT-23",
    "lcsc": "C20917",
    "pads": {
-    "1": "N$10",
+    "1": "N$6",
     "2": "SENSE1",
-    "3": "N$11"
+    "3": "N$7"
    }
   },
   {
@@ -672,8 +676,8 @@
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$9",
-    "2": "N$10"
+    "1": "N$5",
+    "2": "N$6"
    }
   },
   {
@@ -683,7 +687,7 @@
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$10",
+    "1": "N$6",
     "2": "GND"
    }
   },
@@ -694,7 +698,7 @@
    "footprint": "Capacitor_SMD:C_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$9",
+    "1": "N$5",
     "2": "SENSE1"
    }
   },
@@ -706,7 +710,7 @@
    "lcsc": "TBC-JST-XH-2P",
    "pads": {
     "1": "VLED",
-    "2": "N$11"
+    "2": "N$7"
    }
   },
   {
@@ -716,9 +720,9 @@
    "footprint": "Package_TO_SOT_SMD:SOT-23",
    "lcsc": "C20917",
    "pads": {
-    "1": "N$13",
+    "1": "N$9",
     "2": "SENSE2",
-    "3": "N$14"
+    "3": "N$10"
    }
   },
   {
@@ -739,8 +743,8 @@
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$12",
-    "2": "N$13"
+    "1": "N$8",
+    "2": "N$9"
    }
   },
   {
@@ -750,7 +754,7 @@
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$13",
+    "1": "N$9",
     "2": "GND"
    }
   },
@@ -761,7 +765,7 @@
    "footprint": "Capacitor_SMD:C_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$12",
+    "1": "N$8",
     "2": "SENSE2"
    }
   },
@@ -773,14 +777,14 @@
    "lcsc": "TBC-JST-XH-2P",
    "pads": {
     "1": "VLED",
-    "2": "N$14"
+    "2": "N$10"
    }
   },
   {
    "ref": "C27",
    "name": "C",
    "value": "470uF",
-   "footprint": "Capacitor_SMD:CP_Elec_8x10.2",
+   "footprint": "Capacitor_Tantalum_SMD:CP_EIA-7343-30_AVX-N",
    "lcsc": "",
    "pads": {
     "1": "VLED",
@@ -791,7 +795,7 @@
    "ref": "C28",
    "name": "C",
    "value": "470uF",
-   "footprint": "Capacitor_SMD:CP_Elec_8x10.2",
+   "footprint": "Capacitor_Tantalum_SMD:CP_EIA-7343-30_AVX-N",
    "lcsc": "",
    "pads": {
     "1": "VLED",
@@ -1114,7 +1118,7 @@
    "lcsc": "C72043",
    "pads": {
     "1": "GND",
-    "2": "N$16"
+    "2": "N$12"
    }
   },
   {
@@ -1124,8 +1128,8 @@
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lcsc": "",
    "pads": {
-    "1": "N$15",
-    "2": "N$16"
+    "1": "N$11",
+    "2": "N$12"
    }
   },
   {
@@ -1212,10 +1216,6 @@
   "N$10",
   "N$11",
   "N$12",
-  "N$13",
-  "N$14",
-  "N$15",
-  "N$16",
   "N$2",
   "N$3",
   "N$4",
@@ -1246,8 +1246,12 @@
   "UART_RX_HDR",
   "UART_TX",
   "UART_TX_HDR",
+  "USB_DM",
   "USB_DM_CONN",
+  "USB_DM_ESD",
+  "USB_DP",
   "USB_DP_CONN",
+  "USB_DP_ESD",
   "VBAT_IN",
   "VBAT_OUT",
   "VBUS",

@@ -85,7 +85,7 @@ RP2040 = _p(
 # W25Q128JVSIQ, SOIC-8 208 mil. Pin map: Winbond W25Q128JV datasheet §3.1.
 W25Q128 = _p(
     "W25Q128JVSIQ", "U",
-    "Package_SO:SOIC-8_5.23x5.23mm_P1.27mm",
+    "Package_SO:SOIC-8_5.3x5.3mm_P1.27mm",
     lcsc="C97521", value="W25Q128JVSIQ",
     pins=[
         Pin(num="1", name="CS_N", func=IN),
@@ -151,18 +151,22 @@ USBC = _p(
     lcsc="C165948", value="USB-C",
     pins=[
         Pin(num="A1", name="GND", func=PWRIN),
+        Pin(num="A12", name="GND", func=PWRIN),
         Pin(num="A4", name="VBUS", func=PWRIN),
+        Pin(num="A9", name="VBUS", func=PWRIN),
         Pin(num="A5", name="CC1", func=BI),
         Pin(num="A6", name="DP1", func=BI),
         Pin(num="A7", name="DM1", func=BI),
         Pin(num="A8", name="SBU1", func=NOCON),
         Pin(num="B1", name="GND", func=PWRIN),
+        Pin(num="B12", name="GND", func=PWRIN),
         Pin(num="B4", name="VBUS", func=PWRIN),
+        Pin(num="B9", name="VBUS", func=PWRIN),
         Pin(num="B5", name="CC2", func=BI),
         Pin(num="B6", name="DP2", func=BI),
         Pin(num="B7", name="DM2", func=BI),
         Pin(num="B8", name="SBU2", func=NOCON),
-        Pin(num="S1", name="SHIELD", func=PAS),
+        Pin(num="SH", name="SHIELD", func=PAS),
     ],
 )
 
@@ -298,7 +302,9 @@ def R(value, size="0603", lcsc=""):
 def C(value, size="0603", lcsc=""):
     fp = {"0603": "Capacitor_SMD:C_0603_1608Metric",
           "0805": "Capacitor_SMD:C_0805_2012Metric",
-          "elec": "Capacitor_SMD:CP_Elec_8x10.2"}[size]
+          # 470 µF 6.3 V polymer, EIA-7343 D-case: half the footprint of
+          # an 8 mm can and lower ESR — better as a pulse reservoir
+          "elec": "Capacitor_Tantalum_SMD:CP_EIA-7343-30_AVX-N"}[size]
     return _p("C", "C", fp, lcsc=lcsc, value=value, template=False,
               pins=[Pin(num="1", name="1", func=PAS),
                     Pin(num="2", name="2", func=PAS)])
