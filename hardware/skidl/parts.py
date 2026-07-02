@@ -273,18 +273,20 @@ SS34 = _p(
           Pin(num="2", name="A", func=PAS)],
 )
 
-# 1N4148WS small-signal diode, SOD-323 (WS2812 VDD drop).
+# 1N4148W small-signal diode, SOD-123 (WS2812 VDD drop) — footprint
+# matches the stock-verified C81598 (SOD-123 variant).
 D4148 = _p(
-    "1N4148WS", "D", "Diode_SMD:D_SOD-323",
-    lcsc="C81598", value="1N4148WS",
+    "1N4148W", "D", "Diode_SMD:D_SOD-123",
+    lcsc="C81598", value="1N4148W",
     pins=[Pin(num="1", name="K", func=PAS),
           Pin(num="2", name="A", func=PAS)],
 )
 
-# PTC resettable fuse, 1812, 3 A hold. Commodity; number at BOM time.
+# PTC resettable fuse: BHFUSE BSMD1812-300-16V, 3 A hold
+# (stock-verified C883162).
 PTC_3A = _p(
-    "PTC_3A", "F", "Fuse:Fuse_1812_4532Metric",
-    lcsc="TBC-1812-PTC-3A", value="PTC 3A",
+    "BSMD1812-300", "F", "Fuse:Fuse_1812_4532Metric",
+    lcsc="C883162", value="PTC 3A",
     pins=[Pin(num="1", name="1", func=PAS),
           Pin(num="2", name="2", func=PAS)],
 )

@@ -40,7 +40,8 @@ def main():
     for part in default_circuit.parts:
         pads = {}
         for pin in part.pins:
-            if pin.net is not None and pin.net.name != "NC":
+            if (pin.net is not None and pin.net.name != "NC"
+                    and not pin.net.name.startswith("__NOCONNECT")):
                 pads[str(pin.num)] = pin.net.name
         parts.append({
             "ref": part.ref,

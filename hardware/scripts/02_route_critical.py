@@ -28,6 +28,16 @@ sys.path.insert(0, str(Path(__file__).parent))
 import pcbnew
 from kicad_common import BOARD_PATH, BOARD_H, BOARD_W, FromMM, mm, to_local
 
+# VLED In2 island: west entry lobe + 1 mm conduit finger + reservoir
+# pocket + east lobe + right strip + left column. Drawn tightly so
+# the flash / QSPI / C11 areas keep a true 3V3 plane beneath them.
+VLED_ISLAND = [
+    (6, 1.5), (15, 1.5), (15, 12.2), (41, 12.2), (41, 1.5),
+    (74.5, 1.5), (74.5, 38), (69, 38), (69, 10), (50, 10),
+    (50, 19.5), (41, 19.5), (41, 13.2), (15, 13.2), (15, 13),
+    (11, 13), (11, 24), (6, 24),
+]
+
 W_QSPI = 0.15
 W_USB = 0.36
 W_SIG = 0.2
@@ -36,10 +46,12 @@ W_FLASH = 1.5
 
 
 def get(board, ref):
-    fp = board.FindFootprintByReference(ref)
-    if fp is None:
-        raise KeyError(ref)
-    return fp
+    # NOT FindFootprintByReference: its SWIG wrapper intermittently
+    # returns a dead object on boards with zones; iteration is stable
+    for fp in board.GetFootprints():
+        if fp.GetReference() == ref:
+            return fp
+    raise KeyError(ref)
 
 
 def pad_of(fp, num):
@@ -90,7 +102,14 @@ def add_track(board, netname, pts, width, layer=None):
         board.Add(t)
 
 
+_via_spots = set()
+
+
 def add_via(board, netname, xy, size=0.6, drill=0.3):
+    key = (round(xy[0], 2), round(xy[1], 2))
+    if key in _via_spots:
+        return          # coincident duplicate (e.g. stacked A1/B12
+    _via_spots.add(key)  # connector pads) — one via serves both
     ni = board.FindNet(netname)
     v = pcbnew.PCB_VIA(board)
     v.SetPosition(mm(*xy))
@@ -105,11 +124,14 @@ OWNED_NETS = None
 
 
 def clear_owned(board):
+    # board.Delete (remove + destroy), NOT board.Remove: removing
+    # hundreds of tracks without destroying them leaks PCB_TRACK
+    # wrappers and corrupts the SWIG type table mid-process
     for t in list(board.GetTracks()):
         if t.GetNetname() in OWNED_NETS:
-            board.Remove(t)
+            board.Delete(t)
     for z in list(board.Zones()):
-        board.Remove(z)
+        board.Delete(z)
 
 
 # ---------------------------------------------------------------- blocks --
@@ -119,6 +141,10 @@ def ep_vias(board):
     for ix in (-1, 0, 1):
         for iy in (-1, 0, 1):
             add_via(board, "GND", (cx + ix * 1.0, cy + iy * 1.0))
+    # TESTEN (pad 19, bottom row, GND) ties straight north into the
+    # exposed pad — the stub finder can't reach it in QFN density
+    t = ppos(u2, "19")
+    add_track(board, "GND", [t, (t[0], cy + 1.55)], 0.25)
 
 
 def qspi(board):
@@ -197,6 +223,27 @@ def crystal(board):
     add_track(board, "XOUT_XTAL",
               [r1_b, (r1_b[0], 31.6), (wx, 31.6), (wx, p_xtl[1]),
                p_xtl], W_SIG)
+    # load caps: tie each cap's signal pad to its crystal pad. If the
+    # cap sits south of the XOUT_XTAL sweep (y31.6), a direct tie
+    # would cross it — detour under on B.Cu instead, tapping the XIN
+    # bypass vertical from below.
+    for capnet, target in (("XIN", p_xin), ("XOUT_XTAL", p_xtl)):
+        for fp in board.GetFootprints():
+            if not fp.GetReference().startswith("C"):
+                continue
+            for p in fp.Pads():
+                if p.GetNetname() != capnet:
+                    continue
+                cp = to_local(p.GetPosition())
+                if capnet == "XIN" and cp[1] > 31.0:
+                    add_via(board, "XIN", cp, size=0.5, drill=0.25)
+                    add_track(board, "XIN",
+                              [cp, (cp[0], 29.2), (bypass_x, 29.2)],
+                              W_SIG, pcbnew.B_Cu)
+                    add_via(board, "XIN", (bypass_x, 29.2), size=0.5,
+                            drill=0.25)
+                else:
+                    add_track(board, capnet, [cp, target], W_SIG)
 
 
 def usb(board):
@@ -403,9 +450,29 @@ def vled_drops(board):
                         placedone = True
                         break
             if not placedone:
-                print(f"WARN: no clear VLED stub at {fp.GetReference()}"
-                      f" pad ({x:.1f},{y:.1f}) — relying on island "
-                      "reach; flag in review checklist")
+                # last resort: via-in-pad (fine for hand assembly;
+                # flagged for the review checklist)
+                add_via(board, "VLED", (x, y), size=0.5, drill=0.25)
+                print(f"NEEDS-REVIEW: via-in-pad VLED tap at "
+                      f"{fp.GetReference()} ({x:.1f},{y:.1f})")
+
+
+def vbat(board):
+    """Battery pass-through carries up to 5 A: JST -> 10 mΩ shunt ->
+    JST in 1.5 mm copper (IPC-2221 external, 10 °C: ~3 A/mm → 1.5 mm
+    ≈ 4.5 A steady; the 5 A case is transient camera peaks — noted in
+    the verification report). INA219 sense taps ride the same nets."""
+    j5, j6, r19 = get(board, "J5"), get(board, "J6"), get(board, "R19")
+    jin = npos(j5, "VBAT_IN")
+    jout = npos(j6, "VBAT_OUT")
+    rin = to_local(pad_by_net(r19, "VBAT_IN").GetPosition())
+    rout = to_local(pad_by_net(r19, "VBAT_OUT").GetPosition())
+    add_track(board, "VBAT_IN", [jin, (rin[0], jin[1]), rin], 1.5)
+    # L down the shunt's east column, then west along the JST pin's own
+    # row (the connector's other pin sits 2.5 mm off-row, so this
+    # cannot cross it); the column is corridor-reserved in placement
+    add_track(board, "VBAT_OUT",
+              [rout, (rout[0], jout[1]), jout], 1.5)
 
 
 def led_returns(board):
@@ -432,6 +499,187 @@ def led_returns(board):
                 drill=0.4)
 
 
+def qfn_power_fanout(board):
+    """U2's power pins that the corridors cut off from their caps get
+    dedicated fanouts (0.25 mm) to 3V3 plane vias, using the free ring
+    between the QFN pad row and the exposed pad — the standard escape
+    when the periphery is congested. Coordinates assume U2 at (30,21).
+    - pins 43 (ADC_AVDD) + 44 (VREG_VIN): east link at y16.9 (between
+      the pad tips and the USB DM lane) to a via at (33.05, 17.05);
+      pin 42 (IOVDD) joins via its own column;
+    - pins 48 (USB_VDD) + 49 (IOVDD): interior link at y18.6 to a via
+      at (28.0, 18.6);
+    - pins 22 + 33 (IOVDD): interior link at y23.4 to (32.4, 23.4)."""
+    u2 = get(board, "U2")
+    p = {n: ppos(u2, n) for n in ("43", "44", "48", "49",
+                                  "22", "33")}
+    w = 0.25
+    # north-east interior cluster (pins 43 ADC_AVDD + 44 VREG_VIN):
+    # via sits on pin 43's own column (the channel between the EP and
+    # the right-hand pad column is only 0.4 mm — unusable)
+    for n in ("43", "44"):
+        add_track(board, "+3V3", [p[n], (p[n][0], 18.6)], w)
+    add_track(board, "+3V3", [(p["44"][0], 18.6), (p["43"][0], 18.6),
+                              (p["43"][0], 18.9)], w)
+    add_via(board, "+3V3", (p["43"][0], 18.9), size=0.5, drill=0.25)
+    # north-west interior cluster (pins 48 USB_VDD + 49 IOVDD)
+    for n in ("48", "49"):
+        add_track(board, "+3V3", [p[n], (p[n][0], 18.6)], w)
+    add_track(board, "+3V3", [(p["49"][0], 18.6), (28.0, 18.6)], w)
+    add_via(board, "+3V3", (28.0, 18.6), size=0.5, drill=0.25)
+    # pin 22 (IOVDD, bottom row): interior via in the south channel,
+    # east of the TESTEN tie column
+    add_track(board, "+3V3", [p["22"], (p["22"][0], 23.4),
+                              (30.85, 23.35)], w)
+    add_via(board, "+3V3", (30.9, 23.3), size=0.5, drill=0.25)
+    # pin 33 connects through its explicitly-seeded east-side cap
+    # (see 01_make_board's pin-33 seed override)
+
+
+def pi_and_vreg_links(board):
+    """Two legs the autorouter repeatedly fails in the congested NW:
+    - PI_SDA: U2.4 -> B.Cu (through the x=21.0 corridor between the
+      header barrels) -> J8.3;
+    - VREG_1V1 pin 23 -> its west-side cap, under the crystal-hop wall
+      on B.Cu."""
+    u2, j8 = get(board, "U2"), get(board, "J8")
+    p4 = ppos(u2, "4")
+    j3p = ppos(j8, "3")
+    add_track(board, "PI_SDA", [p4, (25.6, p4[1])], 0.25)
+    add_via(board, "PI_SDA", (25.6, p4[1]), size=0.5, drill=0.25)
+    add_track(board, "PI_SDA",
+              [(25.6, p4[1]), (21.0, p4[1]), (21.0, 4.5),
+               (j3p[0], 4.5), j3p], 0.25, pcbnew.B_Cu)
+
+    p23 = ppos(u2, "23")
+    cap = None
+    best = 1e9
+    for fp in board.GetFootprints():
+        if fp.GetReference()[0] != "C":
+            continue
+        for p in fp.Pads():
+            if p.GetNetname() == "VREG_1V1":
+                c = to_local(p.GetPosition())
+                d = (c[0]-p23[0])**2 + (c[1]-p23[1])**2
+                if d < best:
+                    best, cap = d, c
+    assert cap, "no VREG cap found"
+    add_track(board, "VREG_1V1", [p23, (p23[0], 25.6)], 0.25)
+    add_via(board, "VREG_1V1", (p23[0], 25.6), size=0.5, drill=0.25)
+    add_track(board, "VREG_1V1",
+              [(p23[0], 25.6), (p23[0], 26.2), (24.9, 26.2),
+               (24.9, cap[1])], 0.25, pcbnew.B_Cu)
+    add_via(board, "VREG_1V1", (24.9, cap[1]), size=0.5, drill=0.25)
+    add_track(board, "VREG_1V1", [(24.9, cap[1]), cap], 0.25)
+
+
+def ic_power_hops(board):
+    """Each IC power pin gets a direct short track to its adjacent
+    decoupling cap's pad (same net): the caps carry the plane vias, so
+    this closes pin -> cap -> via -> plane. Without it the pins dangle
+    (+3V3 is excluded from autorouting)."""
+    cpads = []
+    for fp in board.GetFootprints():
+        if fp.GetReference()[0] == "C":
+            for p in fp.Pads():
+                if p.GetNetname() == "+3V3":
+                    cpads.append(to_local(p.GetPosition()))
+    n = 0
+    for fp in board.GetFootprints():
+        if fp.GetReference()[0] not in "UY":
+            continue
+        for p in fp.Pads():
+            if p.GetNetname() != "+3V3":
+                continue
+            x, y = to_local(p.GetPosition())
+            best = min(cpads, key=lambda c: (c[0]-x)**2 + (c[1]-y)**2)
+            # only truly adjacent caps (placement orients each cap's
+            # 3V3 pad toward its pin). Exit PERPENDICULAR from the pad
+            # row first so the diagonal never clips a neighboring pin.
+            if (best[0]-x)**2 + (best[1]-y)**2 < 7.85:
+                cx, cy = to_local(fp.GetPosition())
+                if abs(x - cx) >= abs(y - cy):     # side-column pin
+                    esc = (x + (1.0 if x > cx else -1.0), y)
+                else:                              # row pin
+                    esc = (x, y + (1.0 if y > cy else -1.0))
+                add_track(board, "+3V3", [(x, y), esc, best], 0.25)
+                n += 1
+            else:
+                print(f"  NEEDS-REVIEW: {fp.GetReference()} 3V3 pin at "
+                      f"({x:.1f},{y:.1f}) has no cap within 2.8 mm")
+    print(f"ic power hops: {n}")
+
+
+def plane_stubs(board):
+    """Every SMD pad on +3V3 / GND gets a stub + via to its plane
+    BEFORE autorouting: the board is empty so spots are plentiful, and
+    Freerouting then treats these vias as obstacles and never needs to
+    route the plane nets at all (the professional plane-fanout flow)."""
+    boxes_for = {net: _obstacles(board, {net}) for net in ("+3V3", "GND")}
+    existing = {}
+    for t in board.GetTracks():
+        if t.GetClass() == "PCB_VIA":
+            existing.setdefault(t.GetNetname(), []).append(
+                to_local(t.GetPosition()))
+    stats = {}
+    for fp in board.GetFootprints():
+        if fp.GetReference() == "U2":
+            continue   # EP vias + TESTEN tie + oriented cap hops serve
+            # the QFN; a via ring here would choke autorouter escapes
+        for p in fp.Pads():
+            net = p.GetNetname()
+            if net not in ("+3V3", "GND"):
+                continue
+            boxes = boxes_for[net]
+            if p.GetAttribute() != pcbnew.PAD_ATTRIB_SMD:
+                continue   # THT pads reach the planes directly
+            x, y = to_local(p.GetPosition())
+            # only skip if a same-net via sits ON this pad (vias just
+            # 0.8 mm away usually belong to a NEIGHBORING pad's stub
+            # and have no copper path to this pad's island)
+            if any((vx - x) ** 2 + (vy - y) ** 2 < 0.09
+                   for vx, vy in existing.get(net, [])):
+                continue
+            done = False
+            for dx, dy in ((1.1, 0), (-1.1, 0), (0, 1.1), (0, -1.1),
+                           (0.95, 0.95), (-0.95, 0.95), (0.95, -0.95),
+                           (-0.95, -0.95), (1.6, 0), (-1.6, 0),
+                           (0, 1.6), (0, -1.6)):
+                vx, vy = x + dx, y + dy
+                if not (1.2 < vx < BOARD_W - 1.2 and
+                        1.2 < vy < BOARD_H - 1.2):
+                    continue
+                span = (min(x, vx) - 0.48, min(y, vy) - 0.48,
+                        max(x, vx) + 0.48, max(y, vy) + 0.48)
+                if _clear(boxes, *span):
+                    add_track(board, net, [(x, y), (vx, vy)], 0.3)
+                    add_via(board, net, (vx, vy), size=0.5, drill=0.25)
+                    existing.setdefault(net, []).append((vx, vy))
+                    # the new stub blocks BOTH nets' later spots
+                    for bl in boxes_for.values():
+                        bl.append(span)
+                    stats[net] = stats.get(net, 0) + 1
+                    done = True
+                    break
+            if not done:
+                add_via(board, net, (x, y), size=0.5, drill=0.25)
+                print(f"  NEEDS-REVIEW: via-in-pad {net} tap at "
+                      f"{fp.GetReference()} ({x:.1f},{y:.1f})")
+    print("plane stubs:", stats)
+
+    # +3V3 pads inside the VLED island's top band (east half) cannot
+    # tap In2 locally — feed them south into the 3V3 region between
+    # the reservoir pocket (ends x50) and the right strip (starts x69)
+    for fp in board.GetFootprints():
+        for p in fp.Pads():
+            if p.GetNetname() != "+3V3":
+                continue
+            x, y = to_local(p.GetPosition())
+            if y < 10.5 and 50.5 < x < 68.5:
+                add_track(board, "+3V3", [(x, y), (x, 11.7)], 0.3)
+                add_via(board, "+3V3", (x, 11.7), size=0.5, drill=0.25)
+
+
 def zones(board):
     def zone(net, layer, poly, priority):
         ni = board.FindNet(net)
@@ -442,6 +690,7 @@ def zones(board):
         z.SetPadConnection(pcbnew.ZONE_CONNECTION_FULL)
         z.SetMinThickness(FromMM(0.2))
         z.SetLocalClearance(FromMM(0.2))
+        z.SetIslandRemovalMode(pcbnew.ISLAND_REMOVAL_MODE_ALWAYS)
         ol = z.Outline()
         ol.NewOutline()
         for x, y in poly:
@@ -452,9 +701,7 @@ def zones(board):
             (BOARD_W - 0.5, BOARD_H - 0.5), (0.5, BOARD_H - 0.5)]
     zone("GND", pcbnew.In1_Cu, full, 0)
     zone("+3V3", pcbnew.In2_Cu, full, 0)
-    island = [(6, 1.5), (BOARD_W - 1.5, 1.5), (BOARD_W - 1.5, 44),
-              (42, 44), (42, 13), (11, 13), (11, 24), (6, 24)]
-    zone("VLED", pcbnew.In2_Cu, island, 1)
+    zone("VLED", pcbnew.In2_Cu, VLED_ISLAND, 1)
 
     filler = pcbnew.ZONE_FILLER(board)
     filler.Fill(board.Zones())
@@ -474,14 +721,20 @@ def main():
         for pnum in pads:
             OWNED_NETS.add(pad_of(fp, pnum).GetNetname())
 
+    OWNED_NETS.update({"VBAT_IN", "VBAT_OUT"})
     clear_owned(board)
     ep_vias(board)
     qspi(board)
     crystal(board)
     usb(board)
     power_entry(board)
+    vbat(board)
     vled_drops(board)
     led_returns(board)
+    qfn_power_fanout(board)
+    ic_power_hops(board)
+    pi_and_vreg_links(board)
+    plane_stubs(board)
     zones(board)
     board.Save(str(BOARD_PATH))
     print(f"critical routing done: {sum(1 for _ in board.GetTracks())} "

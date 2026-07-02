@@ -6,7 +6,7 @@ from skidl.pin import pin_types
 SKIDL_lib_version = '0.0.1'
 
 build = SchLib(tool=SKIDL).add_parts(*[
-        Part(**{ 'name':'PTC_3A', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'PTC_3A'}), 'ref_prefix':'F', 'fplist':None, 'footprint':'Fuse:Fuse_1812_4532Metric', 'keywords':None, 'description':'', 'datasheet':None, 'pins':[
+        Part(**{ 'name':'BSMD1812-300', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'BSMD1812-300'}), 'ref_prefix':'F', 'fplist':None, 'footprint':'Fuse:Fuse_1812_4532Metric', 'keywords':None, 'description':'', 'datasheet':None, 'pins':[
             Pin(num='1',name='1',func=pin_types.PASSIVE),
             Pin(num='2',name='2',func=pin_types.PASSIVE)] }),
         Part(**{ 'name':'AO3401A', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'AO3401A'}), 'ref_prefix':'Q', 'fplist':None, 'footprint':'Package_TO_SOT_SMD:SOT-23', 'keywords':None, 'description':'', 'datasheet':None, 'pins':[
@@ -188,7 +188,7 @@ build = SchLib(tool=SKIDL).add_parts(*[
             Pin(num='2',name='DOUT',func=pin_types.OUTPUT),
             Pin(num='3',name='VSS',func=pin_types.PWRIN),
             Pin(num='4',name='DIN',func=pin_types.INPUT)] }),
-        Part(**{ 'name':'1N4148WS', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'1N4148WS'}), 'ref_prefix':'D', 'fplist':None, 'footprint':'Diode_SMD:D_SOD-323', 'keywords':None, 'description':'', 'datasheet':None, 'pins':[
+        Part(**{ 'name':'1N4148W', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'1N4148W'}), 'ref_prefix':'D', 'fplist':None, 'footprint':'Diode_SMD:D_SOD-123', 'keywords':None, 'description':'', 'datasheet':None, 'pins':[
             Pin(num='1',name='K',func=pin_types.PASSIVE),
             Pin(num='2',name='A',func=pin_types.PASSIVE)] }),
         Part(**{ 'name':'LED_GREEN', 'dest':TEMPLATE, 'tool':SKIDL, 'aliases':Alias({'LED_GREEN'}), 'ref_prefix':'D', 'fplist':None, 'footprint':'LED_SMD:LED_0603_1608Metric', 'keywords':None, 'description':'', 'datasheet':None, 'pins':[

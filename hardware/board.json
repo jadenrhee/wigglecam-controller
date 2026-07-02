@@ -2,10 +2,10 @@
  "parts": [
   {
    "ref": "F1",
-   "name": "PTC_3A",
+   "name": "BSMD1812-300",
    "value": "PTC 3A",
    "footprint": "Fuse:Fuse_1812_4532Metric",
-   "lcsc": "TBC-1812-PTC-3A",
+   "lcsc": "C883162",
    "pads": {
     "1": "PI5V_RAW",
     "2": "PI5V_FUSED"
@@ -130,14 +130,10 @@
     "8": "CAM_SYNC",
     "9": "SPARE_IO",
     "10": "+3V3",
-    "11": "__NOCONNECT",
-    "12": "__NOCONNECT",
     "13": "SHUTTER_N",
     "14": "ENC_A",
     "15": "ENC_B",
     "16": "ENC_SW1",
-    "17": "__NOCONNECT",
-    "18": "__NOCONNECT",
     "19": "GND",
     "20": "XIN",
     "21": "XOUT",
@@ -147,20 +143,9 @@
     "25": "N$2",
     "26": "RUN",
     "27": "FLASH_PWM",
-    "28": "__NOCONNECT",
-    "29": "__NOCONNECT",
-    "30": "__NOCONNECT",
-    "31": "__NOCONNECT",
-    "32": "__NOCONNECT",
     "33": "+3V3",
     "34": "WS_DIN",
-    "35": "__NOCONNECT",
-    "36": "__NOCONNECT",
     "37": "N$11",
-    "38": "__NOCONNECT",
-    "39": "__NOCONNECT",
-    "40": "__NOCONNECT",
-    "41": "__NOCONNECT",
     "42": "+3V3",
     "43": "+3V3",
     "44": "+3V3",
@@ -426,8 +411,6 @@
    "lcsc": "C318884",
    "pads": {
     "1": "QSPI_SS",
-    "2": "__NOCONNECT",
-    "3": "__NOCONNECT",
     "4": "GND"
    }
   },
@@ -461,8 +444,6 @@
    "lcsc": "C318884",
    "pads": {
     "1": "RUN",
-    "2": "__NOCONNECT",
-    "3": "__NOCONNECT",
     "4": "GND"
    }
   },
@@ -492,7 +473,6 @@
     "A5": "N$3",
     "A6": "USB_DP_CONN",
     "A7": "USB_DM_CONN",
-    "A8": "__NOCONNECT",
     "B1": "GND",
     "B12": "GND",
     "B4": "VBUS",
@@ -500,7 +480,6 @@
     "B5": "N$4",
     "B6": "USB_DP_CONN",
     "B7": "USB_DM_CONN",
-    "B8": "__NOCONNECT",
     "SH": "GND"
    }
   },
@@ -1072,16 +1051,15 @@
    "lcsc": "C2761795",
    "pads": {
     "1": "WS_VDD",
-    "2": "__NOCONNECT",
     "3": "GND",
     "4": "WS_DIN_R"
    }
   },
   {
    "ref": "D5",
-   "name": "1N4148WS",
-   "value": "1N4148WS",
-   "footprint": "Diode_SMD:D_SOD-323",
+   "name": "1N4148W",
+   "value": "1N4148W",
+   "footprint": "Diode_SMD:D_SOD-123",
    "lcsc": "C81598",
    "pads": {
     "1": "WS_VDD",
@@ -1139,13 +1117,11 @@
    "footprint": "Connector_PinSocket_2.54mm:PinSocket_2x06_P2.54mm_Vertical",
    "lcsc": "TBC-PinSocket-2x6",
    "pads": {
-    "1": "__NOCONNECT",
     "2": "PI5V_RAW",
     "3": "PI_SDA",
     "4": "PI5V_RAW",
     "5": "PI_SCL",
     "6": "GND",
-    "7": "__NOCONNECT",
     "8": "UART_RX_HDR",
     "9": "GND",
     "10": "UART_TX_HDR",

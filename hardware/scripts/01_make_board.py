@@ -75,7 +75,7 @@ NET_ANCHORS = [
 # routing corridors reserved before passives are auto-placed:
 # (x0, y0, x1, y1) regions the placer must keep clear
 CORRIDORS = [
-    (35.2, 16.5, 40.2, 45.0),   # USB differential pair, U2 → ESD → J2
+    (35.4, 16.5, 40.2, 45.0),   # USB differential pair, U2 → ESD → J2
     (15.2, 12.8, 32.0, 16.4),   # QSPI lanes, U2 top edge → flash
     (15.2, 8.0, 17.8, 12.8),    # QSPI far-side verticals, left of flash
     (25.6, 9.4, 30.2, 12.8),    # QSPI near-side verticals + SCLK/SD3
@@ -89,10 +89,14 @@ CORRIDORS = [
                                 # +7.5,+2.5); the knob turns 20 mm above
                                 # the board so only body+pads block.
                                 # SW3 skips bbox-occupy (bogus bbox)
-    (30.4, 29.4, 32.8, 32.4),   # crystal XOUT_XTAL south sweep
+    (30.4, 29.4, 32.8, 32.4),   # crystal XOUT_XTAL south sweep (east)
+    (22.2, 30.9, 30.6, 32.3),   # crystal XOUT_XTAL south sweep (west)
     (65.8, 18.5, 72.5, 40.0),   # LED-return bypass strip, right edge
     (56.9, 24.9, 59.4, 26.3),   # sense-R GND via pocket, branch A
     (56.9, 36.9, 59.4, 38.3),   # sense-R GND via pocket, branch B
+    (13.4, 31.0, 15.4, 46.4),   # VBAT_OUT heavy trace column
+    (2.0, 41.6, 15.4, 46.4),    # VBAT_OUT row to J6 (either pin row)
+    (2.0, 32.8, 9.6, 34.7),     # VBAT_IN heavy trace row
 ]
 
 # power-pin cap assignment: (owner ref, pad) consuming 100nF {+3V3,GND}
@@ -230,7 +234,7 @@ def main():
         fp.SetPosition(mm(x, y))
         board.Add(fp)
         occupy(grid, fp)
-    for i, (x, y) in enumerate([(2.5, 12), (68, 47.8), (68, 2.2)]):
+    for i, (x, y) in enumerate([(2.5, 12), (68, 47.8), (74, 8)]):
         fp = load_footprint("Fiducial:Fiducial_1mm_Mask2mm")
         fp.SetReference(f"FID{i+1}")
         fp.SetPosition(mm(x, y))
@@ -254,6 +258,18 @@ def main():
                     and netsig(p) == frozenset({"+3V3", "GND"})]
     assert len(caps_100n_33) == len(CAP_100N_3V3_TARGETS), \
         (caps_100n_33, CAP_100N_3V3_TARGETS)
+    def orient_cap_toward(capref, net, px, py):
+        """Rotate a 2-pin cap so its `net` pad faces the target pad —
+        the pin->cap hop then runs straight and short."""
+        fp = fps[capref]
+        pads = {p.GetNetname(): to_local(p.GetPosition())
+                for p in fp.Pads()}
+        other = next(n for n in pads if n != net)
+        d_net = (pads[net][0]-px)**2 + (pads[net][1]-py)**2
+        d_oth = (pads[other][0]-px)**2 + (pads[other][1]-py)**2
+        if d_net > d_oth:
+            fp.SetOrientationDegrees(fp.GetOrientationDegrees() + 180)
+
     for ref, (owner, padnum) in zip(caps_100n_33, CAP_100N_3V3_TARGETS):
         px, py = pad_pos(fps[owner], padnum)
         # push outward from the owner's center so the cap sits just
@@ -262,7 +278,13 @@ def main():
         dx, dy = px - cx, py - cy
         norm = max((dx * dx + dy * dy) ** 0.5, 0.1)
         tx, ty = px + dx / norm * 1.9, py + dy / norm * 1.9
+        if owner == "U2" and padnum in ("33", "42"):
+            # these pins' outward spots are inside the USB corridor;
+            # the free strip east of the pad column fits their caps
+            tx, ty = 34.35, py
+            fps[ref].SetOrientationDegrees(90)
         place_free(grid, fps[ref], tx, ty)
+        orient_cap_toward(ref, "+3V3", px, py)
         placed.add(ref)
 
     # DVDD (VREG_1V1) caps → pins 23 and 50; 1 µF pair → pins 44/45
@@ -274,7 +296,10 @@ def main():
             netsig(p) == frozenset({"VREG_1V1", "GND"}), [("U2", "45")]),
         (lambda p: p["value"] == "1uF" and
             netsig(p) == frozenset({"+3V3", "GND"}), [("U2", "44")]),
-        (lambda p: p["value"] == "15pF", [("Y1", "1"), ("Y1", "3")]),
+        # crystal load caps: pad anchor for orientation + explicit
+        # seed clear of the XOUT_XTAL sweep corridors
+        (lambda p: p["value"] == "15pF",
+         [("Y1", "1", 27.7, 30.4), ("Y1", "3", 22.3, 26.4)]),
         (lambda p: p["value"] == "22uF" and
             netsig(p) == frozenset({"VSYS", "GND"}),
          [(12, 28.8), (15.5, 28.8)]),
@@ -284,8 +309,16 @@ def main():
                 if p["name"] == "C" and sel(p) and p["ref"] not in placed]
         assert len(refs) == len(targets), (refs, targets)
         for ref, tgt in zip(refs, targets):
-            if isinstance(tgt[0], str):
-                tx, ty = pad_pos(fps[tgt[0]], tgt[1])
+            anchor_pad = None
+            if isinstance(tgt[0], str) and len(tgt) == 4:
+                anchor_pad = pad_pos(fps[tgt[0]], tgt[1])
+                tx, ty = tgt[2], tgt[3]
+                if tgt[:2] == ("Y1", "1"):
+                    # rotated, it fits the narrow pocket east of Y1
+                    fps[ref].SetOrientationDegrees(90)
+            elif isinstance(tgt[0], str):
+                anchor_pad = pad_pos(fps[tgt[0]], tgt[1])
+                tx, ty = anchor_pad
                 cx, cy = to_local(fps[tgt[0]].GetPosition())
                 dx, dy = tx - cx, ty - cy
                 n = max((dx * dx + dy * dy) ** 0.5, 0.1)
@@ -293,6 +326,13 @@ def main():
             else:
                 tx, ty = tgt
             place_free(grid, fps[ref], tx, ty)
+            if anchor_pad is not None:
+                # face the cap's signal pad (its non-GND net) toward
+                # the pad it decouples/loads, so the tie runs straight
+                signet = next((n for n in byref[ref]["pads"].values()
+                               if n != "GND"), None)
+                if signet:
+                    orient_cap_toward(ref, signet, *anchor_pad)
             placed.add(ref)
 
     # --- everything else: anchor to the most specific net's fixed pad
