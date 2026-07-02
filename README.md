@@ -43,6 +43,15 @@ the finished layout against published design guidance.
 | [firmware/](firmware/) | Pico-SDK C firmware: I2C register file, flash safety logic, INA219, EC11, WS2812 |
 | [docs/](docs/) | [verification report](docs/verification-report.md) · [design rationale](docs/design-rationale.md) · [human review checklist](docs/human-review-checklist.md) · [Pi protocol](docs/protocol.md) · [plan](docs/plan.md) |
 
+## Enclosure
+
+[enclosure/](enclosure/) holds a two-shell 3D-printable control pod
+(screen + this PCB + Pi 5) whose PCB-facing features are generated
+from the routed board file, with print-ordering instructions for
+JLC3DP/Craftcloud — see [enclosure/README.md](enclosure/README.md).
+
+![pod](enclosure/renders/pod_assembly.png)
+
 ## Next steps (in order)
 
 1. Work through [docs/human-review-checklist.md](docs/human-review-checklist.md)
