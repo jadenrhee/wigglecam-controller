@@ -292,11 +292,39 @@ PTC_3A = _p(
 )
 
 # Generic two-terminal passives ------------------------------------------
+# LCSC picks for the generic values, verified against lcsc.com
+# product pages 2026-07-03 (value + package confirmed per number).
+# Resistors are UNI-ROYAL 0603WAF (JLC basic class) unless noted.
+LCSC_R = {
+    "27R":     "C25190",   # 0603WAF... 27 Ω 1% (QSPI + USB series)
+    "100R":    "C22775",   # 0603WAF1000T5E
+    "330R":    "C23138",   # 0603WAF3300T5E
+    "470R":    "C23179",   # 0603WAF4700T5E
+    "1k":      "C21190",   # 0603WAF1001T5E
+    "4.7k":    "C23162",   # 0603WAF4701T5E
+    "5.1k":    "C23186",   # 0603WAF5101T5E
+    "5.6k":    "C23189",   # 0603WAF5601T5E
+    "10k":     "C25804",   # 0603WAF1002T5E
+    "100k":    "C25803",   # 0603WAF1003T5E
+    "0.5R 1%": "C105149",  # RALEC RTT25R500FTE 0.5 Ω 1% 1 W 2512 (sense)
+}
+LCSC_C = {
+    "15pF":  "C1644",    # Samsung CL10C150JB8NNNC C0G 50 V 0603
+    "1nF":   "C1588",    # Samsung CL10B102KB8NNNC X7R 50 V 0603
+    "100nF": "C14663",   # YAGEO CC0603KRX7R9BB104 X7R 50 V 0603
+    "1uF":   "C15849",   # Samsung CL10A105KB8NNNC X5R 0603
+    "10uF":  "C15850",   # Samsung CL21A106KAYNNNE X5R 25 V 0805
+    "22uF":  "C45783",   # Samsung CL21A226MAQNNNE X5R 25 V 0805
+    "470uF": "C402828",  # Panasonic 6TPE470MI POSCAP 6.3 V 18 mΩ 7343
+}
+
+
 def R(value, size="0603", lcsc=""):
     fp = {"0603": "Resistor_SMD:R_0603_1608Metric",
           "1206": "Resistor_SMD:R_1206_3216Metric",
           "2512": "Resistor_SMD:R_2512_6332Metric"}[size]
-    return _p("R", "R", fp, lcsc=lcsc, value=value, template=False,
+    return _p("R", "R", fp, lcsc=lcsc or LCSC_R.get(value, ""),
+              value=value, template=False,
               pins=[Pin(num="1", name="1", func=PAS),
                     Pin(num="2", name="2", func=PAS)])
 
@@ -307,7 +335,8 @@ def C(value, size="0603", lcsc=""):
           # 470 µF 6.3 V polymer, EIA-7343 D-case: half the footprint of
           # an 8 mm can and lower ESR — better as a pulse reservoir
           "elec": "Capacitor_Tantalum_SMD:CP_EIA-7343-30_AVX-N"}[size]
-    return _p("C", "C", fp, lcsc=lcsc, value=value, template=False,
+    return _p("C", "C", fp, lcsc=lcsc or LCSC_C.get(value, ""),
+              value=value, template=False,
               pins=[Pin(num="1", name="1", func=PAS),
                     Pin(num="2", name="2", func=PAS)])
 
@@ -329,10 +358,14 @@ LED_G = _p(
 )
 
 # Connectors ---------------------------------------------------------------
+# THT parts, excluded from SMT assembly (hand-solder). The JST shells
+# are genuine JST B2B-XH-A (C158012, verified 2026-07-03); the 2.54 mm
+# socket/header are any-vendor generics — LCSC left blank on purpose so
+# the JLC BOM tool marks them "do not place".
 def JST_XH2(name):
     return _p(name, "J",
               "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical",
-              lcsc="TBC-JST-XH-2P", value=name, template=False,
+              lcsc="C158012", value=name, template=False,
               pins=[Pin(num="1", name="1", func=PAS),
                     Pin(num="2", name="2", func=PAS)])
 
@@ -340,14 +373,14 @@ def JST_XH2(name):
 PI_HDR = _p(
     "PI_HEADER_2x6", "J",
     "Connector_PinSocket_2.54mm:PinSocket_2x06_P2.54mm_Vertical",
-    lcsc="TBC-PinSocket-2x6", value="Pi GPIO 1-12",
+    lcsc="", value="Pi GPIO 1-12",
     pins=[Pin(num=str(n), name=f"P{n}", func=PAS) for n in range(1, 13)],
 )
 
 SWD_HDR = _p(
     "SWD", "J",
     "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical",
-    lcsc="TBC-PinHeader-1x3", value="SWD",
+    lcsc="", value="SWD",
     pins=[Pin(num="1", name="SWCLK", func=PAS),
           Pin(num="2", name="GND", func=PAS),
           Pin(num="3", name="SWDIO", func=PAS)],

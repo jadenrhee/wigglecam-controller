@@ -183,8 +183,10 @@ def mcu_core():
 
 def usb(u):
     """USB-C device port: CC pulldowns advertise UFP (USB spec §4.5.1.2
-    — 5.1 kΩ Rd), USBLC6 in the data path ahead of the MCU, 27.4 Ω
-    series Rs at the RP2040 pins per the design guide."""
+    — 5.1 kΩ Rd), USBLC6 in the data path ahead of the MCU, 27 Ω
+    series Rs at the RP2040 pins per the design guide (guide nominal is
+    27 Ω; the Pico's 27.4 Ω is the E96 neighbour — electrically
+    equivalent at USB-FS, and 27 Ω is a JLC basic part)."""
     j = P.USBC()
     esd = P.USBLC6()
 
@@ -211,10 +213,10 @@ def usb(u):
     esd["GND"] += GND
     dp_esd, dp_mcu = Net("USB_DP_ESD"), Net("USB_DP")
     dm_esd, dm_mcu = Net("USB_DM_ESD"), Net("USB_DM")
-    r_dp = P.R("27.4R")
+    r_dp = P.R("27R")
     esd["IO1B"] += dp_esd; r_dp[1] += dp_esd
     r_dp[2] += dp_mcu; u["USB_DP"] += dp_mcu
-    r_dm = P.R("27.4R")
+    r_dm = P.R("27R")
     esd["IO2B"] += dm_esd; r_dm[1] += dm_esd
     r_dm[2] += dm_mcu; u["USB_DM"] += dm_mcu
 

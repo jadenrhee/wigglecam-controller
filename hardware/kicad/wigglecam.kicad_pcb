@@ -8083,7 +8083,7 @@
 				)
 			)
 		)
-		(property "Value" "27.4R"
+		(property "Value" "27R"
 			(at 0 1.43 90)
 			(layer "F.Fab")
 			(uuid "51266007-79e2-48ee-b9c3-0e694b18fa14")
@@ -17506,7 +17506,7 @@
 				)
 			)
 		)
-		(property "Value" "27.4R"
+		(property "Value" "27R"
 			(at 0 1.43 90)
 			(layer "F.Fab")
 			(uuid "e18272bf-4df7-4ef2-987c-89c7b0ace95f")

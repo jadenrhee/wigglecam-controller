@@ -58,7 +58,28 @@ spot-check the following in the KiCad GUI (open
       part; if hand-building, use flux + drag soldering or hot air,
       and buy 2–3 spares.
 - [ ] **Stock re-check**: BOM quantities/stock were verified
-      2026-07-02 (see hardware/partlist.md); LCSC stock moves.
-- [ ] The 470 µF 6.3 V polymer (EIA-7343) needs a concrete LCSC pick
-      at order time — filter JLC parts for "polymer tantalum 470µF
-      6.3V 7343, ESR ≤ 100 mΩ".
+      2026-07-02, generic passives matched to concrete LCSC numbers
+      2026-07-03 (see hardware/partlist.md); LCSC stock moves —
+      re-confirm live in the JLC BOM tool at upload.
+- [x] ~~The 470 µF 6.3 V polymer (EIA-7343) needs a concrete LCSC
+      pick at order time~~ **Resolved 2026-07-03:** C27/C28 =
+      Panasonic 6TPE470MI POSCAP, 470 µF 6.3 V, 18 mΩ (LCSC
+      **C402828**) — meets the ≤100 mΩ ESR the reservoir sizing
+      assumes. 6.3 V rating on a ~4.9 V rail is ~78 % — inside normal
+      polymer derating practice, but do not repurpose this rail
+      above 5.1 V.
+
+## Known deviation from the reference design (accepted, not fixed)
+
+- **BOOTSEL button has no 1 kΩ series resistor.** The RP2040
+  reference design puts ~1 kΩ between the flash-CS net and the
+  BOOTSEL button so that pressing the button while the RP2040 is
+  actively driving QSPI_SS doesn't short a driven output to ground.
+  On this board SW1 connects QSPI_SS straight to GND. Consequences:
+  BOOTSEL entry works normally (hold BOOTSEL, tap RUN), but avoid
+  pressing BOOTSEL while the board is running — during the boot-ROM
+  flash probe the pad briefly drives into the short (tens of mA,
+  µs–ms scale; survivable but out-of-spec stress). Fixing it means
+  inserting an 0603 into SW1's ground leg and re-running the DRC +
+  verification pipeline — do this in a future board revision, or
+  before ordering if the runtime-press scenario bothers you.

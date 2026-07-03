@@ -33,7 +33,7 @@ power planes on the inner layers are hidden for readability):
 | DRC (JLCPCB 4-layer rules, zones refilled) | **0 violations, 0 unconnected** |
 | Verification report | 24 measured checks: no FAILs; deviations analyzed and dispositioned — [docs/verification-report.md](docs/verification-report.md) |
 | Firmware (Pico SDK, C) | builds clean → `camctrl.uf2` |
-| Fab outputs | Gerbers + drill + BOM + CPL in [fab/](fab/) |
+| Fab outputs | Gerbers + drill + BOM + CPL in [fab/](fab/) — every SMT line carries a verified LCSC number (2026-07-03); THT connectors are hand-solder |
 
 ## Repository layout
 
