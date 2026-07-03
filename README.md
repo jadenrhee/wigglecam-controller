@@ -19,6 +19,11 @@ the finished layout against published design guidance.
 ![Board, top](fab/renders/board_top.png)
 ![Board, bottom](fab/renders/board_bottom.png)
 
+Signal routing — front copper in red, back copper in blue (the GND and
+power planes on the inner layers are hidden for readability):
+
+![Routing view](fab/renders/layout.svg)
+
 ## Status
 
 | Stage | Result |
