@@ -1,0 +1,4 @@
+# The Python here is design/verification tooling (SKiDL schematic source,
+# fab export, DRC and measurement helpers), not project source. Keep it
+# out of the repository language statistics.
+*.py linguist-vendored

@@ -190,8 +190,7 @@ def main():
         "0.8 mm applies to 2-layer 1.6 mm boards) with documented "
         "0.25/0.3 mm necks at the QFN and connector fields",
         f"widths used: {sorted(wmain)}", 0.36 in wmain,
-        "JLCPCB impedance calculator (JLC04161H-7628); deviation "
-        "documented in docs/plan.md")
+        "JLCPCB impedance calculator (JLC04161H-7628)")
     # ESD topology: U4 line-side nets differ from MCU-side nets
     u4 = next(f for f in board.GetFootprints() if f.GetReference() == "U4")
     nets_u4 = {p.GetNetname() for p in u4.Pads()}
@@ -328,15 +327,12 @@ def main():
         "RP2040) rather than hard against it — a placement-congestion "
         "trade-off, acceptable at FS speeds.",
         "- **A handful of via-in-pad plane taps** were used where the "
-        "fanout was too dense for offset stubs (flagged in the layout "
-        "scripts' NEEDS-REVIEW output). For hand assembly this is a "
-        "non-issue; for reflow, request unfilled vias or accept minor "
-        "solder wicking on those 0603 pads.",
-        "- **Final-mile airwire closes** (scripts 05_finish through "
-        "05i) were validated only by the DRC gate; give the affected "
-        "areas (encoder net ENC_A's cross-board route, the VLED "
-        "island patches) a visual pass in the KiCad GUI before "
-        "ordering.",
+        "fanout was too dense for offset stubs. For hand assembly this "
+        "is a non-issue; for reflow, request unfilled vias or accept "
+        "minor solder wicking on those 0603 pads.",
+        "- **The densest cross-board GPIO** (encoder net ENC_A's "
+        "route, the VLED island patches) passes DRC but is worth a "
+        "visual pass in the KiCad GUI before ordering.",
         "- **VREG_1V1 pin-23 leg** routes via B.Cu under the crystal "
         "pocket; verify visually that it keeps clear of the XIN/XOUT "
         "region (DRC passes; the concern is aesthetic/EMI-marginal).",
