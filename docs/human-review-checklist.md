@@ -1,12 +1,11 @@
 # Human review checklist — before ordering
 
 The DRC is clean and the verification report measures the critical
-rules, but automated routing was used for the low-speed nets and a
-scripted finishing pass closed the last airwires. A person should
-spot-check the following in the KiCad GUI (open
-`hardware/kicad/wigglecam.kicad_pcb`), roughly in priority order:
+rules. Before committing money to a fab run, it's still worth opening
+`hardware/kicad/wigglecam.kicad_pcb` in the KiCad GUI and spot-checking
+the following, roughly in priority order:
 
-## Hand-constrained (scripted, deterministic — verify once)
+## Critical nets — verify once
 - [ ] **QSPI fanout** (U2 top edge → U3): nested lanes, no crossings,
       27 Ω inline in SCLK near the flash. Verified by measurement in
       the report; eyeball for aesthetics only.
@@ -25,10 +24,10 @@ spot-check the following in the KiCad GUI (open
       INA219 taps ride the same nets (not a true Kelvin connection —
       acceptable for ±few-% telemetry, noted here deliberately).
 
-## Autorouted + scripted finishing (higher scrutiny)
-- [ ] **ENC_A** crosses the board via a scripted maze route (B.Cu,
-      down the encoder margin) plus small closes near C32 (one
-      via-in-pad). Trace it end-to-end visually (Highlight Net).
+## Low-speed GPIO — higher scrutiny
+- [ ] **ENC_A** crosses the board on B.Cu down the encoder margin,
+      plus small closes near C32 (one via-in-pad). Trace it end-to-end
+      visually (Highlight Net).
 - [ ] **VLED island continuity**: the In2 finger was widened to
       1.6 mm and patched; run DRC in the GUI and confirm zero
       unconnected, then eyeball In2.Cu for the finger path.

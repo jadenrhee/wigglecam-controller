@@ -1,4 +1,4 @@
-"""Shared helpers for the pcbnew layout scripts (KiCad 10 bundled python)."""
+"""Shared helpers for the fab-export, DRC, and verification scripts."""
 
 import json
 from pathlib import Path

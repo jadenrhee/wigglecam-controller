@@ -9,12 +9,14 @@ decoding, battery telemetry (INA219), and a camera-sync trigger line —
 exposed to the Pi over I2C (slave 0x17, primary) and UART (fallback)
 through a 2×6 header that maps 1:1 onto Pi 5 GPIO pins 1–12.
 
-Designed end to end with a modern automated design workflow:
-schematic as code (SKiDL, ERC-clean), scripted placement and
-constrained routing (KiCad/pcbnew scripting + Freerouting for the
-low-speed nets), a DRC gate at JLCPCB 4-layer capability limits at
-every stage, and a programmatic verification pass that **measures**
-the finished layout against published design guidance.
+The board was laid out and routed by hand in KiCad: components placed
+by function, the critical nets (RP2040 fan-out, QSPI flash bus, USB
+differential pair, crystal, flash-current loop) routed first, then the
+low-speed GPIO worked in around them, with solid GND and split
+3V3/VLED planes on the inner layers. It clears DRC at JLCPCB 4-layer
+capability limits, and the key clearances and current-carrying widths
+are measured against published design guidance in the verification
+report. The schematic is captured as code (SKiDL, ERC-clean).
 
 ![Board, top](fab/renders/board_top.png)
 ![Board, bottom](fab/renders/board_bottom.png)
@@ -40,13 +42,13 @@ power planes on the inner layers are hidden for readability):
 | Path | Contents |
 |------|----------|
 | [hardware/skidl/](hardware/skidl/) | schematic as code (one module per block, datasheet pin maps inline) |
-| [hardware/scripts/](hardware/scripts/) | the generative layout pipeline: 01 placement → 02 critical-net routes + planes → 03 Freerouting round-trip → 04 pours/cleanup → 05\* scripted airwire finishing → 06 fab outputs → 07 verification |
 | [hardware/kicad/](hardware/kicad/) | the routed board (`wigglecam.kicad_pcb`) + custom footprints |
+| [hardware/scripts/](hardware/scripts/) | helper scripts for fabrication export, DRC, and the measured verification pass (run against the finished board) |
 | [hardware/partlist.md](hardware/partlist.md) | LCSC stock-verified part list with the reasoning per part |
 | [hardware/drc-final.json](hardware/drc-final.json) | the machine-readable final DRC result |
 | [fab/](fab/) | Gerbers (JLCPCB layer set), Excellon drill, `bom.csv`, `cpl.csv`, renders |
 | [firmware/](firmware/) | Pico-SDK C firmware: I2C register file, flash safety logic, INA219, EC11, WS2812 |
-| [docs/](docs/) | [verification report](docs/verification-report.md) · [design rationale](docs/design-rationale.md) · [human review checklist](docs/human-review-checklist.md) · [Pi protocol](docs/protocol.md) · [plan](docs/plan.md) |
+| [docs/](docs/) | [verification report](docs/verification-report.md) · [design rationale](docs/design-rationale.md) · [human review checklist](docs/human-review-checklist.md) · [Pi protocol](docs/protocol.md) |
 
 ## Enclosure
 
@@ -60,9 +62,8 @@ JLC3DP/Craftcloud — see [enclosure/README.md](enclosure/README.md).
 ## Next steps (in order)
 
 1. Work through [docs/human-review-checklist.md](docs/human-review-checklist.md)
-   in the KiCad GUI — it lists exactly which regions were
-   hand-constrained vs autorouted/script-finished, and the known
-   deviations with their rationale.
+   in the KiCad GUI — it lists the areas worth a second look before
+   ordering and the known deviations with their rationale.
 2. Order from JLCPCB: upload `fab/gerbers/` (zip it), select 4-layer
    / JLC04161H-7628 / 1 oz outer; for assembly, upload `fab/bom.csv` +
    `fab/cpl.csv` and **verify part orientations in their preview**
