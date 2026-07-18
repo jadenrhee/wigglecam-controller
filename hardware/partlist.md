@@ -18,7 +18,7 @@ value + package), and the 470 µF reservoir got its concrete pick.
 | U2 | [RP2040](https://www.lcsc.com/product-detail/C2040.html) | QFN-56 7×7 | **C2040** | 0.70 | in stock; support circuit per the official *Hardware design with RP2040* guide |
 | U3 | [W25Q128JVSIQ](https://www.lcsc.com/product-detail/NOR-FLASH_Winbond-Elec-W25Q128JVSIQ_C97521.html) 16 MB QSPI | SOIC-8 | **C97521** | 0.47 | in stock; the flash used on the Pico |
 | Y1 | [ABM8-272-T3](https://www.lcsc.com/product-detail/C20625731.html) 12 MHz, CL = 10 pF | 3225 | **C20625731** | 0.15 | in stock; the exact crystal from the RP2040 guide's minimal example → 15 pF load caps + 1 kΩ series R on XOUT, straight from the guide |
-| SW1, SW2 | [TS-1187A-B-A-B](https://www.lcsc.com/product-detail/C318884.html) BOOTSEL + RUN | SMD 5.1 mm | **C318884** | 0.01 | in stock, JLC **basic**. Known deviation: no 1 kΩ in series with the BOOTSEL button (reference design has one) — see human-review-checklist.md |
+| SW1, SW2 | [TS-1187A-B-A-B](https://www.lcsc.com/product-detail/C318884.html) BOOTSEL + RUN | SMD 5.1 mm | **C318884** | 0.01 | in stock, JLC **basic**. Known deviation: no 1 kΩ in series with the BOOTSEL button (reference design has one) |
 | J1 | SWD header 1×3, 2.54 mm | THT | generic | — | hand-solder; any vendor |
 
 ## Power

@@ -15,7 +15,7 @@ Generated 2026-07-02 by `hardware/scripts/07_verify.py`, which measures the fina
 | 9 | Decoupling | 100 nF adjacent to every RP2040 power pin | pin-to-nearest-cap 2.5–8.0 mm (6 of 8 pins <3 mm) | **DEVIATION** | RP2040 hardware design guide §2.1 (place decoupling close). **Accepted:** pins 43 (ADC_AVDD) and 44 (VREG_VIN) have their caps ~8 mm away — the USB corridor owns their natural spots. Both pins have dedicated low-inductance vias into the 3V3 plane 2 mm away (interior fanout), and this design does not use the ADC. Flagged in the review checklist. |
 | 10 | Decoupling | QFN center pad stitched to GND with >=9 vias | 9 vias in the EP | **PASS** | RP2040 hardware design guide §2.1 |
 | 11 | USB | pair length-matched | DP 39.6 mm vs DM 40.4 mm (Δ 0.8 mm; USB-FS intra-pair budget is generous) | **PASS** | USB 2.0 spec §7.1.6 (FS); Intel HSD guidelines for FS routing |
-| 12 | USB | differential geometry 0.36 mm width (90 Ω on JLC04161H-7628 per JLCPCB impedance calculator; the oft-cited 0.8 mm applies to 2-layer 1.6 mm boards) with documented 0.25/0.3 mm necks at the QFN and connector fields | widths used: [0.25, 0.3, 0.36] | **PASS** | JLCPCB impedance calculator (JLC04161H-7628); deviation documented in docs/plan.md |
+| 12 | USB | differential geometry 0.36 mm width (90 Ω on JLC04161H-7628 per JLCPCB impedance calculator; the oft-cited 0.8 mm applies to 2-layer 1.6 mm boards) with documented 0.25/0.3 mm necks at the QFN and connector fields | widths used: [0.25, 0.3, 0.36] | **PASS** | JLCPCB impedance calculator (JLC04161H-7628); deviation documented below |
 | 13 | USB | ESD array in the line before the MCU | USBLC6 carries CONN-side and ESD-side nets (flow-through) | **PASS** | ST USBLC6-2 datasheet, application diagram |
 | 14 | Flash path | IPC-2221 width for 2 A at ΔT=10 °C on 1 oz: A=(I/(k·ΔT^0.44))^(1/0.725) = 42.4 mil² → 0.78 mm; VLED is a plane island (>=5 mm) and shares the 2 A across two 1 A branches | LED return widths [1.0] mm vs 1 A need 0.30 mm | **PASS** | IPC-2221A §6.2, external-layer chart |
 | 15 | Flash path | highest-current distribution as pour, not trace | VLED In2 island area 684 mm² | **PASS** | IPC-2221A; standard practice for pulse rails |
@@ -31,7 +31,7 @@ Generated 2026-07-02 by `hardware/scripts/07_verify.py`, which measures the fina
 
 ## Known deviations & NEEDS-REVIEW items
 
-These are called out rather than hidden; see also docs/human-review-checklist.md:
+These are called out rather than hidden:
 
 - **USB differential width** deviates from the commonly quoted 0.8 mm because that figure assumes a 2-layer 1.6 mm board; on JLC04161H-7628 the 90 Ω geometry is ≈0.36 mm (JLCPCB impedance calculator). Short 0.25/0.3 mm necks exist at the QFN pads and connector field — at USB-FS (12 Mbps) these are electrically negligible.
 - **USB series resistors** sit mid-corridor (~15 mm from the RP2040) rather than hard against it — a placement-congestion trade-off, acceptable at FS speeds.
