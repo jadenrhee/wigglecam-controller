@@ -2,6 +2,12 @@
 // Protocol: write [reg] then bytes (auto-increment), or write [reg]
 // then repeated-start read (auto-increment). Matches SMBus-style
 // access from the Pi (i2cget/i2cset/smbus2).
+//
+// Transaction framing comes from the hardware: IC_DATA_CMD bit 11
+// (FIRST_DATA_BYTE) tags the first byte after each address phase, so
+// the register byte is identified per transaction even when several
+// write transactions queue up in the RX FIFO before this IRQ drains
+// them — no software start-detect heuristic needed.
 
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
@@ -13,25 +19,18 @@ static i2c_inst_t *inst;
 static i2c_read_fn rd;
 static i2c_write_fn wr;
 static uint8_t reg_addr;
-static bool addr_received;
 
 static void slave_irq(void) {
     i2c_hw_t *hw = i2c_get_hw(inst);
     uint32_t status = hw->intr_stat;
 
-    if (status & I2C_IC_INTR_STAT_R_START_DET_BITS) {
-        hw->clr_start_det;
-        addr_received = false;   // new transaction: first byte = reg
-    }
     if (status & I2C_IC_INTR_STAT_R_RX_FULL_BITS) {
         while (hw->rxflr) {
-            uint8_t b = (uint8_t)hw->data_cmd;
-            if (!addr_received) {
-                reg_addr = b;
-                addr_received = true;
-            } else {
-                wr(reg_addr++, b);
-            }
+            uint32_t d = hw->data_cmd;
+            if (d & I2C_IC_DATA_CMD_FIRST_DATA_BYTE_BITS)
+                reg_addr = (uint8_t)d;    // first byte = register addr
+            else
+                wr(reg_addr++, (uint8_t)d);
         }
     }
     if (status & I2C_IC_INTR_STAT_R_RD_REQ_BITS) {
@@ -60,7 +59,6 @@ void i2c_slave_setup(i2c_inst_t *i2c, uint sda, uint scl, uint8_t addr,
     i2c_hw_t *hw = i2c_get_hw(i2c);
     hw->intr_mask = I2C_IC_INTR_MASK_M_RX_FULL_BITS |
                     I2C_IC_INTR_MASK_M_RD_REQ_BITS |
-                    I2C_IC_INTR_MASK_M_START_DET_BITS |
                     I2C_IC_INTR_MASK_M_STOP_DET_BITS |
                     I2C_IC_INTR_MASK_M_TX_ABRT_BITS;
 

@@ -1,7 +1,8 @@
 # Part list — verified against LCSC stock, 2026-07-02
 
 Every named part below was individually confirmed present and in stock
-at LCSC on the date above (links in each row). Prices are the LCSC
+at LCSC on the date above (links in each row), except where a row says
+"confirm at order". Prices are the LCSC
 from-price at qty 1; re-check stock at order time — it moves.
 "JLC class" (basic vs extended, affects assembly setup fees) should be
 confirmed in the JLCPCB BOM tool at order time; known classes noted.
@@ -94,7 +95,8 @@ groupings match `fab/bom.csv`.
 | 100 Ω 1 % | R14, R17 | 0603 | **C22775** | UNI-ROYAL 0603WAF1000T5E |
 | 330 Ω 1 % | R32–R35 | 0603 | **C23138** | UNI-ROYAL 0603WAF3300T5E |
 | 470 Ω 1 % | R30 | 0603 | **C23179** | UNI-ROYAL 0603WAF4700T5E |
-| 1 kΩ 1 % | R1, R10, R12, R23, R25, R27, R29, R31 | 0603 | **C21190** | UNI-ROYAL 0603WAF1001T5E |
+| 1 kΩ 1 % | R1, R10, R23, R25, R27, R29, R31 | 0603 | **C21190** | UNI-ROYAL 0603WAF1001T5E |
+| 1.18 kΩ 1 % (E96) | R12 | 0603 | confirm at order | UNI-ROYAL 0603WAF1181T5E — VREF divider bottom leg; sized against the RC filter's 1 kΩ source impedance so full scale settles at 0.50 V (a plain 1 k here gives 0.434 V → 0.87 A/branch) |
 | 4.7 kΩ 1 % | R20, R21 | 0603 | **C23162** | UNI-ROYAL 0603WAF4701T5E |
 | 5.1 kΩ 1 % | R5, R6 | 0603 | **C23186** | UNI-ROYAL 0603WAF5101T5E |
 | 5.6 kΩ 1 % | R11 | 0603 | **C23189** | UNI-ROYAL 0603WAF5601T5E |
@@ -110,6 +112,6 @@ groupings match `fab/bom.csv`.
 | 3 / 5 | GPIO2 SDA / GPIO3 SCL | I2C — RP2040 slave @ 0x17. Pi has 1.8 kΩ hardware pullups on these pins, so the board adds none (optional solder-jumper 4.7 k for standalone bench use) |
 | 6, 9 | GND | |
 | 7 | GPIO4 | spare |
-| 8 / 10 | GPIO14 TXD / GPIO15 RXD | UART fallback link |
+| 8 / 10 | GPIO14 TXD / GPIO15 RXD | UART pair, wired to RP2040 GPIO0/1 (unused — the firmware speaks I2C only) |
 | 11 | GPIO17 | **camera-sync trigger** (RP2040 → Pi input) |
-| 12 | GPIO18 | spare / flash-inhibit |
+| 12 | GPIO18 | **ATTN** event flag (RP2040 GPIO7 → Pi input, see docs/protocol.md) |

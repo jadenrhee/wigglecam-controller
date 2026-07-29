@@ -2,9 +2,15 @@
 //
 // PIN_FLASH_PWM feeds an RC filter + divider producing the op-amp
 // current-sink reference (100 % duty = 0.5 V = 1.00 A per branch).
-// Firmware enforces: pulse <= FLASH_MAX_MS, cooldown >= FLASH_COOLDOWN_MS
-// (thermal duty for the SOT-23 sinks), and the pin idles LOW so the
-// board's 100k pulldown and this driver agree the flash is off.
+// Firmware enforces: total LED-on time <= FLASH_MAX_MS — the ~5 ms
+// pre-sync settle counts against the budget — cooldown >=
+// FLASH_COOLDOWN_MS (thermal duty for the SOT-23 sinks), and the pin
+// idles LOW so the board's 100k pulldown and this driver agree the
+// flash is off.
+//
+// Everything here is nonblocking: callers start a sequence, and
+// flash_poll() (main loop) walks it through its states. Nothing
+// sleeps, so nothing here may stall the I2C slave IRQ.
 
 #include "pico/stdlib.h"
 #include "hardware/pwm.h"
@@ -12,10 +18,21 @@
 #include "board.h"
 #include "flash_led.h"
 
+#define SETTLE_MS      5   // LED-on to sync edge, inside FLASH_MAX_MS
+#define SYNC_PULSE_MS 10   // sync pulse width when no flash is involved
+
+enum {
+    F_IDLE,
+    F_SETTLE,   // LEDs on, waiting for steady current before sync
+    F_FIRING,   // LEDs on (sync already raised if requested)
+    F_SYNC,     // sync-only pulse, LEDs off
+};
+
 static uint slice, chan;
-static absolute_time_t pulse_end = {0};
-static absolute_time_t cooldown_end = {0};
-static volatile bool busy;
+static volatile uint8_t state = F_IDLE;
+static absolute_time_t t_step;        // SETTLE->FIRING / SYNC->IDLE
+static absolute_time_t pulse_end;     // LED off (measured from LED on)
+static absolute_time_t cooldown_end;
 
 void flash_init(void) {
     gpio_init(PIN_CAM_SYNC);
@@ -33,45 +50,72 @@ void flash_init(void) {
     pwm_set_enabled(slice, true);
 }
 
-bool flash_busy(void) { return busy; }
+bool flash_busy(void) {
+    return state == F_SETTLE || state == F_FIRING;
+}
 
 static void set_level(uint8_t pct) {
     pwm_set_chan_level(slice, chan, pct > 100 ? 100 : pct);
 }
 
 void flash_fire(uint8_t ms, uint8_t pct, bool with_sync) {
-    if (busy || absolute_time_diff_us(get_absolute_time(),
-                                      cooldown_end) > 0)
-        return;                       // still cooling down: refuse
+    if (state != F_IDLE ||
+        absolute_time_diff_us(get_absolute_time(), cooldown_end) > 0)
+        return;                       // active or cooling down: refuse
     if (ms == 0 || pct == 0)
         return;
     if (ms > FLASH_MAX_MS)
         ms = FLASH_MAX_MS;
 
-    busy = true;
+    absolute_time_t start = get_absolute_time();
     set_level(pct);
-    if (with_sync) {
-        // give the LEDs ~5 ms to reach steady current, then raise the
-        // sync line; the Pi captures on this rising edge while the
-        // scene is lit for the remainder of the pulse.
-        sleep_ms(5);
-        gpio_put(PIN_CAM_SYNC, 1);
+    // pulse_end runs from LED-on, so settle + lit time <= FLASH_MAX_MS
+    pulse_end = delayed_by_ms(start, ms);
+    if (with_sync && ms > SETTLE_MS) {
+        // give the LEDs ~5 ms to reach steady current; flash_poll()
+        // then raises the sync line and the Pi captures on that rising
+        // edge while the scene stays lit for the rest of the pulse.
+        t_step = delayed_by_ms(start, SETTLE_MS);
+        state = F_SETTLE;
+    } else {
+        if (with_sync)
+            gpio_put(PIN_CAM_SYNC, 1);   // pulse too short to settle
+        state = F_FIRING;
     }
-    pulse_end = make_timeout_time_ms(ms);
 }
 
 void flash_sync_pulse_only(void) {
+    if (state != F_IDLE)
+        return;                       // a flash sequence owns the line
     gpio_put(PIN_CAM_SYNC, 1);
-    sleep_ms(10);
-    gpio_put(PIN_CAM_SYNC, 0);
+    t_step = make_timeout_time_ms(SYNC_PULSE_MS);
+    state = F_SYNC;
 }
 
 void flash_poll(void) {
-    if (busy && absolute_time_diff_us(get_absolute_time(),
-                                      pulse_end) <= 0) {
-        set_level(0);
-        gpio_put(PIN_CAM_SYNC, 0);
-        cooldown_end = make_timeout_time_ms(FLASH_COOLDOWN_MS);
-        busy = false;
+    absolute_time_t now = get_absolute_time();
+    switch (state) {
+    case F_SETTLE:
+        if (absolute_time_diff_us(now, t_step) <= 0) {
+            gpio_put(PIN_CAM_SYNC, 1);
+            state = F_FIRING;
+        }
+        break;
+    case F_FIRING:
+        if (absolute_time_diff_us(now, pulse_end) <= 0) {
+            set_level(0);
+            gpio_put(PIN_CAM_SYNC, 0);
+            cooldown_end = make_timeout_time_ms(FLASH_COOLDOWN_MS);
+            state = F_IDLE;
+        }
+        break;
+    case F_SYNC:
+        if (absolute_time_diff_us(now, t_step) <= 0) {
+            gpio_put(PIN_CAM_SYNC, 0);
+            state = F_IDLE;
+        }
+        break;
+    default:
+        break;
     }
 }

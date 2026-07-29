@@ -4,8 +4,8 @@ The RP2040 co-processor board for a [4-lens wigglegram
 camera](https://github.com/jadenrhee/wigglecam). It handles the real-time and
 analog work the Pi 5 shouldn't: constant-current LED flash with hardware
 safety limits, shutter debounce, encoder decoding, battery telemetry (INA219),
-and the camera sync trigger. Exposed over I2C (`0x17`) with UART fallback,
-on a 2×6 header that lands 1:1 on Pi 5 GPIO pins 1–12.
+and the camera sync trigger. Exposed over I2C (`0x17`) on a 2×6 header
+that lands 1:1 on Pi 5 GPIO pins 1–12.
 
 ![Board, top](fab/renders/board_top.png)
 ![Board, bottom](fab/renders/board_bottom.png)

@@ -4,3 +4,4 @@
 void encoder_init(uint pin_a, uint pin_b);
 void encoder_irq(uint gpio);
 int8_t encoder_take_delta(void);
+bool encoder_pending(void);   // >=1 full detent latched (drives ATTN)

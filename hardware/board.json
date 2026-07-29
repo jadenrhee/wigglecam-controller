@@ -617,9 +617,9 @@
   {
    "ref": "R12",
    "name": "R",
-   "value": "1k",
+   "value": "1.18k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
-   "lcsc": "C21190",
+   "lcsc": "",
    "pads": {
     "1": "VREF",
     "2": "GND"

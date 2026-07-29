@@ -1,9 +1,11 @@
 // EC11 quadrature decode, IRQ-driven with a full state-transition
 // table (rejects invalid transitions = contact bounce immunity).
-// EC11E18244AU: 18 detents/36 pulses — 2 valid transitions per detent
-// in each direction with this table; divide accordingly.
+// EC11E18244AU: 36 detents/18 pulses per rev — one detent every half
+// quadrature cycle = 2 valid transitions per detent with this table;
+// divide accordingly.
 
 #include "pico/stdlib.h"
+#include "hardware/sync.h"
 #include "encoder.h"
 #include "board.h"
 
@@ -32,10 +34,19 @@ void encoder_irq(uint gpio) {
 }
 
 int8_t encoder_take_delta(void) {
+    uint32_t save = save_and_disable_interrupts();
     int32_t c = count;
-    count = 0;
     int32_t detents = c / 2;      // 2 valid edges per detent
     if (detents > 127) detents = 127;
     if (detents < -128) detents = -128;
+    count = c - detents * 2;      // keep the sub-detent remainder, so a
+                                  // detent straddling two polls is
+                                  // reported on the next read, not lost
+    restore_interrupts(save);
     return (int8_t)detents;
+}
+
+bool encoder_pending(void) {
+    int32_t c = count;
+    return c >= 2 || c <= -2;     // at least one full detent latched
 }

@@ -1,6 +1,19 @@
 // INA219 driver, fixed configuration for this board:
-// 10 mΩ shunt, PGA ±320 mV, 12-bit, current_LSB = 100 µA
-// → CAL = 0.04096 / (100e-6 * 0.01) = 40960  (INA219 datasheet §8.5.1)
+// PGA ±320 mV, 12-bit, current_LSB = 200 µA
+// → CAL = trunc(0.04096 / (200e-6 · R_shunt))  (INA219 datasheet §8.5.1)
+// 200 µA puts full scale at 32767 · 200 µA = ±6.55 A, covering the
+// design's 5 A worst case; 100 µA would clip the signed current
+// register at 3.28 A and wrap negative above it.
+//
+// Effective shunt resistance: the part (R19) is 10 mΩ, but the layout's
+// sense taps are not Kelvin — they join the 1.5 mm battery trace a few
+// mm from the shunt pads, putting roughly 3 mΩ of copper inside the
+// sense loop, so uncorrected current/power read ~30 % high. Trim
+// SHUNT_EFF_MOHM against a series bench meter at bring-up (expect
+// something near 13).
+#define SHUNT_EFF_MOHM 10
+// CAL = 0.04096 / (200e-6 · R), R in mΩ → 204800 / mΩ (trunc)
+#define INA219_CAL (204800 / SHUNT_EFF_MOHM)
 
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
@@ -36,7 +49,7 @@ void ina219_init(i2c_inst_t *i2c, uint8_t address) {
     // 32V range bit irrelevant (1S battery), PGA /8 (±320 mV),
     // 12-bit bus + shunt, continuous both: 0x399F (datasheet default
     // with PGA kept at /8).
-    present = wr16(REG_CONFIG, 0x399F) && wr16(REG_CAL, 40960);
+    present = wr16(REG_CONFIG, 0x399F) && wr16(REG_CAL, INA219_CAL);
 }
 
 int ina219_bus_mv(void) {
@@ -50,5 +63,5 @@ int ina219_current_ma(void) {
     uint16_t v;
     if (!present || !rd16(REG_CURRENT, &v))
         return 0;
-    return (int16_t)v / 10;       // LSB = 100 µA → /10 = mA
+    return (int16_t)v / 5;        // LSB = 200 µA → /5 = mA
 }

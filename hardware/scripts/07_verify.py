@@ -154,16 +154,20 @@ def main():
                 if p.GetNetname() == "+3V3":
                     best = min(best, dist(pp, to_local(p.GetPosition())))
         dists.append(best)
+    n_close = sum(1 for d in dists if d < 3)
     add("Decoupling", "100 nF adjacent to every RP2040 power pin",
         f"pin-to-nearest-cap {min(dists):.1f}–{max(dists):.1f} mm "
-        "(6 of 8 pins <3 mm)",
+        f"({n_close} of {len(dists)} pins <3 mm)",
         max(dists) < 5.0,
         "RP2040 hardware design guide §2.1 (place decoupling close)",
-        deviation="pins 43 (ADC_AVDD) and 44 (VREG_VIN) have their "
-        "caps ~8 mm away — the USB corridor owns their natural spots. "
-        "Both pins have dedicated low-inductance vias into the 3V3 "
-        "plane 2 mm away (interior fanout), and this design does not "
-        "use the ADC. Flagged in the review checklist.")
+        deviation="most pins sit 3.8–8.0 mm from their nearest cap "
+        "pad; the worst are IOVDD pins 33 (8.0 mm) and 22 (6.1 mm), "
+        "whose natural spots the USB corridor and QSPI fanout own. "
+        "Every measured pin reaches the 3V3 plane through a via "
+        "within 3.3 mm (pin 22 at 1.3 mm, pin 33 at 1.9 mm), so "
+        "decoupling works through the plane rather than pad-to-pad — "
+        "worse than the guide's intent, tolerable at these edge "
+        "rates. Flagged in the review checklist.")
     epc = to_local(pad(board, "U2", "57").GetPosition())
     ep_vias = sum(1 for t in board.GetTracks()
                   if t.GetClass() == "PCB_VIA"

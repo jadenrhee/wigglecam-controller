@@ -31,10 +31,13 @@ with 3× margin.
 ## Flash driver
 Two independent op-amp constant-current sinks (½ LM358 + AO3400A +
 0.5 Ω sense each): I = VREF / 0.5 Ω, VREF = 0–0.5 V from an RC-filtered
-RP2040 PWM through a 5.6k/1k divider, with a 100 kΩ pulldown that
-holds the reference at zero through reset — the flash cannot fire
-until firmware commands it. An AL8860 buck was rejected because from
-a 5 V rail it cannot drive a series LED string (Vf 6–9 V) — one
+RP2040 PWM through a 5.6 k/1.18 k divider — the RC filter's 1 k sits in
+series with the top leg, so the bottom leg is the E96 1.18 k, not 1 k:
+full scale settles at 3.3 × 1.18/(1 + 5.6 + 1.18) ≈ 0.50 V — with a
+100 kΩ pulldown that holds the reference at zero through reset — the
+flash cannot fire until firmware commands it. An AL8860 buck was
+rejected because from a 5 V rail it cannot drive a series LED string
+(Vf 6–9 V) — one
 driver+inductor per LED, all JLC extended parts. Worst-case sink
 dissipation ≈1.4 W for ≤150 ms (firmware-capped, plus 800 ms
 cooldown): within the SOT-23 single-pulse transient envelope with
@@ -45,7 +48,13 @@ the VLED island.
 INA219 high-side on a JST-in/JST-out pass-through with a 10 mΩ 2 W
 shunt (5 A → 50 mV, inside the ±320 mV PGA range). It lives on a
 separate internal I2C bus (RP2040 master) so its traffic never
-touches the Pi-facing bus; firmware caches readings.
+touches the Pi-facing bus; firmware caches readings. The layout's
+sense taps are not Kelvin — they join the 1.5 mm battery trace a few
+mm from the shunt pads, so roughly 3 mΩ of trace copper sits inside
+the sense loop and uncorrected readings run ~30 % high; firmware
+carries an effective-shunt-resistance trim constant
+(`SHUNT_EFF_MOHM`, firmware/src/ina219.c) to calibrate out at
+bring-up.
 
 ## Controls & status
 Shutter and encoder lines get 10 k pullups + 1 k series + 100 nF RC
@@ -57,7 +66,8 @@ convention.
 
 ## Pi interface
 2×6 socket matching Pi 5 GPIO pins 1–12 exactly: I2C (slave 0x17),
-UART, camera-sync out (→ Pi GPIO17), event/ATTN line (→ Pi GPIO18),
+a UART pair (wired, unused by the current firmware), camera-sync out
+(→ Pi GPIO17), event/ATTN line (→ Pi GPIO18),
 5 V in, grounds. 330 Ω series resistors on the push-pull lines as
 contention insurance; the I2C lines connect directly because the Pi 5
 carries 1.8 kΩ hardware pullups.

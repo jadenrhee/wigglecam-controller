@@ -6,8 +6,9 @@ if any error-severity violation or unconnected item remains.
 
 JLCPCB 4-layer standard capabilities (jlcpcb.com/capabilities, checked
 2026-07): min trace/space 0.09 mm (we enforce 0.127 conservative),
-min via drill 0.15 mm laser / 0.3 mm mechanical (we use 0.3), min
-annular ring 0.05 mm (we use 0.15), board-edge clearance 0.3 mm.
+min via drill 0.25 mm mechanical on this 4-layer stackup (we use
+0.25), min annular ring 0.05 mm (we use 0.1), board-edge clearance
+0.3 mm.
 """
 
 import re
