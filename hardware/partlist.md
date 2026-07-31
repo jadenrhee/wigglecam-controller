@@ -1,8 +1,7 @@
 # Part list — verified against LCSC stock, 2026-07-02
 
 Every named part below was individually confirmed present and in stock
-at LCSC on the date above (links in each row), except where a row says
-"confirm at order". Prices are the LCSC
+at LCSC on the date above, except where a row says "confirm at order". Prices are the LCSC
 from-price at qty 1; re-check stock at order time — it moves.
 "JLC class" (basic vs extended, affects assembly setup fees) should be
 confirmed in the JLCPCB BOM tool at order time; known classes noted.
@@ -65,7 +64,7 @@ fire until firmware drives it.
 |-----|------|---------|------|----|-------|
 | U6 | [INA219AIDCNR](https://www.lcsc.com/product-detail/C87469.html) | SOT-23-8 | **C87469** | 0.33 | in stock; on an internal I2C bus (RP2040 master), separate from the Pi-facing bus |
 | R19 | [GX2512-2W-10mR-1%](https://jlcpcb.com/partdetail/Milliohm-GX2512_2W_10mR_1/C500718) shunt | 2512 2 W | **C500718** | — | in stock; 5 A → 50 mV drop, 0.25 W — inside INA219 ±320 mV range |
-| J5, J6 | [B2B-XH-A(LF)(SN)](https://www.lcsc.com/product-detail/C158012.html) JST-XH battery pass-through (in/out) | THT | **C158012** | — | battery lead routes through the shunt; can be left unpopulated with a solder-jumper bypass; hand-solder |
+| J5, J6 | [B2B-XH-A(LF)(SN)](https://www.lcsc.com/product-detail/C158012.html) JST-XH battery pass-through (in/out) | THT | **C158012** | — | battery lead routes through the shunt; can be left unpopulated and the leads soldered straight into the through-holes; hand-solder |
 
 ## Controls & status
 

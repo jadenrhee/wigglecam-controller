@@ -173,15 +173,16 @@ int main(void) {
                 flash_sync_pulse_only();
                 break;
             case REQ_FLASH_SYNC:
-                if (regs[REG_FLASH_PCT] > 0)
-                    flash_fire(regs[REG_FLASH_MS], regs[REG_FLASH_PCT],
-                               true);
-                else
-                    flash_sync_pulse_only();  // still give the Pi its edge
+                // no flash configured, or refused (cooldown): still give
+                // the Pi its sync edge so its capture loop never hangs
+                if (regs[REG_FLASH_PCT] == 0 ||
+                    !flash_fire(regs[REG_FLASH_MS], regs[REG_FLASH_PCT],
+                                true))
+                    flash_sync_pulse_only();
                 break;
             case REQ_FLASH_ONLY:
-                flash_fire(regs[REG_FLASH_MS], regs[REG_FLASH_PCT],
-                           false);
+                (void)flash_fire(regs[REG_FLASH_MS], regs[REG_FLASH_PCT],
+                                 false);
                 break;
             }
         }

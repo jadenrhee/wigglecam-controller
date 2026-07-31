@@ -51,19 +51,19 @@ void flash_init(void) {
 }
 
 bool flash_busy(void) {
-    return state == F_SETTLE || state == F_FIRING;
+    return state != F_IDLE;   // any pulse or sync in progress owns the line
 }
 
 static void set_level(uint8_t pct) {
     pwm_set_chan_level(slice, chan, pct > 100 ? 100 : pct);
 }
 
-void flash_fire(uint8_t ms, uint8_t pct, bool with_sync) {
+bool flash_fire(uint8_t ms, uint8_t pct, bool with_sync) {
     if (state != F_IDLE ||
         absolute_time_diff_us(get_absolute_time(), cooldown_end) > 0)
-        return;                       // active or cooling down: refuse
+        return false;                 // active or cooling down: refuse
     if (ms == 0 || pct == 0)
-        return;
+        return false;
     if (ms > FLASH_MAX_MS)
         ms = FLASH_MAX_MS;
 
@@ -82,6 +82,7 @@ void flash_fire(uint8_t ms, uint8_t pct, bool with_sync) {
             gpio_put(PIN_CAM_SYNC, 1);   // pulse too short to settle
         state = F_FIRING;
     }
+    return true;
 }
 
 void flash_sync_pulse_only(void) {

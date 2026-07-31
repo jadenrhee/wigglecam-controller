@@ -21,7 +21,7 @@ Signal routing, front copper red and back copper blue, planes hidden:
 | DRC | 0 violations, 0 unconnected, at JLCPCB 4-layer rules |
 | Verification | 24 measured checks, no FAILs — [report](docs/verification-report.md) |
 | Firmware | Pico SDK, builds clean → `camctrl.uf2` |
-| Fab | Gerbers, drill, BOM, CPL in [fab/](fab/); LCSC numbers verified |
+| Fab | Gerbers, drill, BOM, CPL in [fab/](fab/); LCSC numbers verified (one value pick pending, noted in the [partlist](hardware/partlist.md)) |
 
 ## Repo layout
 
