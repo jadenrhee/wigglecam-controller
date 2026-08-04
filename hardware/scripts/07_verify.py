@@ -74,12 +74,12 @@ def main():
     dmax, dmin = max(lens.values()), min(lens.values())
     skew_ps = (dmax - clk) / 1000 * 6000 if dmax > clk else 0  # ~6ps/mm
     add("QSPI", "CLK is the longest QSPI trace",
-        f"CLK {clk:.1f} mm vs data {dmin:.1f}–{dmax:.1f} mm; SS total "
+        f"CLK {clk:.1f} mm vs data {dmin:.1f}-{dmax:.1f} mm; SS total "
         f"{ss:.1f} mm incl. its off-bus BOOTSEL-button leg",
         clk >= dmax,
         "PCB Artists RP2040 layout notes",
         deviation=f"the far-side data wraps exceed CLK by "
-        f"{dmax-clk:.1f} mm ≈ {skew_ps:.0f} ps — about "
+        f"{dmax-clk:.1f} mm ≈ {skew_ps:.0f} ps, about "
         f"{skew_ps/3750*100:.1f}% of the 133 MHz half-period; the "
         "rule targets much faster/longer buses. Data arrive early "
         "relative to CLK, which errs in the safe direction for "
@@ -156,16 +156,16 @@ def main():
         dists.append(best)
     n_close = sum(1 for d in dists if d < 3)
     add("Decoupling", "100 nF adjacent to every RP2040 power pin",
-        f"pin-to-nearest-cap {min(dists):.1f}–{max(dists):.1f} mm "
+        f"pin-to-nearest-cap {min(dists):.1f}-{max(dists):.1f} mm "
         f"({n_close} of {len(dists)} pins <3 mm)",
         max(dists) < 5.0,
         "RP2040 hardware design guide §2.1 (place decoupling close)",
-        deviation="most pins sit 3.8–8.0 mm from their nearest cap "
+        deviation="most pins sit 3.8-8.0 mm from their nearest cap "
         "pad; the worst are IOVDD pins 33 (8.0 mm) and 22 (6.1 mm), "
         "whose natural spots the USB corridor and QSPI fanout own. "
         "Every measured pin reaches the 3V3 plane through a via "
         "within 3.3 mm (pin 22 at 1.3 mm, pin 33 at 1.9 mm), so "
-        "decoupling works through the plane rather than pad-to-pad — "
+        "decoupling works through the plane rather than pad-to-pad, "
         "worse than the guide's intent, tolerable at these edge "
         "rates. Flagged in the review checklist.")
     epc = to_local(pad(board, "U2", "57").GetPosition())
@@ -306,7 +306,7 @@ def main():
         "",
         f"Generated {date.today().isoformat()} by "
         "`hardware/scripts/07_verify.py`, which measures the final "
-        "`wigglecam.kicad_pcb` directly — every value below is a "
+        "`wigglecam.kicad_pcb` directly, every value below is a "
         "measurement or a machine check, not an assertion.",
         "",
         "| # | Area | Rule | Measured | Verdict | Source |",
@@ -326,10 +326,10 @@ def main():
         "0.8 mm because that figure assumes a 2-layer 1.6 mm board; on "
         "JLC04161H-7628 the 90 Ω geometry is ≈0.36 mm (JLCPCB "
         "impedance calculator). Short 0.25/0.3 mm necks exist at the "
-        "QFN pads and connector field — at USB-FS (12 Mbps) these are "
+        "QFN pads and connector field, at USB-FS (12 Mbps) these are "
         "electrically negligible.",
         "- **USB series resistors** sit mid-corridor (~15 mm from the "
-        "RP2040) rather than hard against it — a placement-congestion "
+        "RP2040) rather than hard against it, a placement-congestion "
         "trade-off, acceptable at FS speeds.",
         "- **A handful of via-in-pad plane taps** were used where the "
         "fanout was too dense for offset stubs (flagged in the layout "

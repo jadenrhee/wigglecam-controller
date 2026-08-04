@@ -7,7 +7,7 @@
 // (FIRST_DATA_BYTE) tags the first byte after each address phase, so
 // the register byte is identified per transaction even when several
 // write transactions queue up in the RX FIFO before this IRQ drains
-// them — no software start-detect heuristic needed.
+// them, so no software start-detect heuristic is needed.
 
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"

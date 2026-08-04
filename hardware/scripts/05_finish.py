@@ -1,5 +1,5 @@
 """Final-mile closer: read the DRC report's unconnected pairs and draw
-short, collision-checked tracks to close them — the scripted analog of
+short, collision-checked tracks to close them, the scripted analog of
 hand-finishing the last airwires. Pairs it can't close safely are
 printed as NEEDS-REVIEW for the human checklist.
 
@@ -71,7 +71,7 @@ def main():
         if len(pts) != 2:
             continue
         a, b = pts
-        # plane nets: a via at the pad IS the connection — but only if
+        # plane nets: a via at the pad IS the connection, but only if
         # the via hole clears all other copper there
         if net in ("+3V3", "GND", "VLED"):
             if net not in cache:
@@ -104,7 +104,7 @@ def main():
         if d > 4.0 or d < 0.01:
             skipped += 1
             print(f"NEEDS-REVIEW: {net} gap {d:.1f} mm at "
-                  f"({a[0]:.1f},{a[1]:.1f}) — too long to auto-close")
+                  f"({a[0]:.1f},{a[1]:.1f}), too long to auto-close")
             continue
         if net not in cache:
             cache[net] = _obstacles(board, net)
@@ -134,7 +134,7 @@ def main():
         else:
             skipped += 1
             print(f"NEEDS-REVIEW: {net} gap at ({a[0]:.1f},{a[1]:.1f})"
-                  f"->({b[0]:.1f},{b[1]:.1f}) — no clear path")
+                  f"->({b[0]:.1f},{b[1]:.1f}), no clear path")
     filler = pcbnew.ZONE_FILLER(board)
     filler.Fill(board.Zones())
     board.Save(str(BOARD_PATH))

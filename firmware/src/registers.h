@@ -1,4 +1,4 @@
-// I2C register map — the contract with the Pi. Keep in sync with
+// I2C register map, the contract with the Pi. Keep in sync with
 // docs/protocol.md.
 #pragma once
 #include <stdint.h>

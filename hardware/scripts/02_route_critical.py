@@ -14,7 +14,7 @@ Scripted here (docs/plan.md phase 3), never left to Freerouting:
 - power entry and LED returns in heavy copper; VLED as In2 island;
 - zones: In1 solid GND, In2 3V3 fill + VLED island.
 
-All endpoints are looked up by PAD NET, never by assumed geometry —
+All endpoints are looked up by PAD NET, never by assumed geometry,
 pad-1-north assumptions already caused one round of shorts.
 
 Decoupling stubs and 3V3 fanout vias run post-autoroute (04), where
@@ -109,7 +109,7 @@ def add_via(board, netname, xy, size=0.6, drill=0.3):
     key = (round(xy[0], 2), round(xy[1], 2))
     if key in _via_spots:
         return          # coincident duplicate (e.g. stacked A1/B12
-    _via_spots.add(key)  # connector pads) — one via serves both
+    _via_spots.add(key)  # connector pads), one via serves both
     ni = board.FindNet(netname)
     v = pcbnew.PCB_VIA(board)
     v.SetPosition(mm(*xy))
@@ -142,7 +142,7 @@ def ep_vias(board):
         for iy in (-1, 0, 1):
             add_via(board, "GND", (cx + ix * 1.0, cy + iy * 1.0))
     # TESTEN (pad 19, bottom row, GND) ties straight north into the
-    # exposed pad — the stub finder can't reach it in QFN density
+    # exposed pad, the stub finder can't reach it in QFN density
     t = ppos(u2, "19")
     add_track(board, "GND", [t, (t[0], cy + 1.55)], 0.25)
 
@@ -171,7 +171,7 @@ def qspi(board):
     route("QSPI_SD2", "54", "3", 14.7, 16.05)
     # near-side pins from the right, above the far lanes
     route("QSPI_SD0", "53", "5", 14.3, 25.7)
-    # SCLK: lane at y13.4 (shallowest full lane — its escape x29.0 is
+    # SCLK: lane at y13.4 (shallowest full lane, its escape x29.0 is
     # east of every other lane's end), into the series R lying flat at
     # the flash end (east pad = SCLK via fixup), then a short hop from
     # the west pad into flash pin 6.
@@ -208,7 +208,7 @@ def crystal(board):
     r1_a = to_local(pad_by_net(r1, "XOUT").GetPosition())
     r1_b = to_local(pad_by_net(r1, "XOUT_XTAL").GetPosition())
     assert p_xin[0] > p_xtl[0] and p_xin[1] > p_xtl[1], \
-        "crystal pad diagonal changed — re-derive crystal()"
+        "crystal pad diagonal changed, re-derive crystal()"
 
     # XOUT: short hop east into the series R (whichever pad is XOUT)
     add_track(board, "XOUT", [xout_mcu, (xout_mcu[0], r1_a[1]),
@@ -225,7 +225,7 @@ def crystal(board):
                p_xtl], W_SIG)
     # load caps: tie each cap's signal pad to its crystal pad. If the
     # cap sits south of the XOUT_XTAL sweep (y31.6), a direct tie
-    # would cross it — detour under on B.Cu instead, tapping the XIN
+    # would cross it, detour under on B.Cu instead, tapping the XIN
     # bypass vertical from below.
     for capnet, target in (("XIN", p_xin), ("XOUT_XTAL", p_xtl)):
         for fp in board.GetFootprints():
@@ -288,7 +288,7 @@ def usb(board):
         kink = 0.75 if net == "USB_DP_CONN" else 1.15
         tap = (pad[0] + dx, row_y + depth)
         # straight down past the pad field first (pads end +0.73), THEN
-        # diagonal — kink depths staggered per net so adjacent-column
+        # diagonal, kink depths staggered per net so adjacent-column
         # kink corners keep >=0.3 mm between the two nets
         add_track(board, net, [pad, (pad[0], row_y + kink), tap], 0.3)
         add_via(board, net, tap, size=0.5, drill=0.25)
@@ -308,7 +308,7 @@ def usb(board):
         add_track(board, net, [(px, row_y - 4.0), tgt], W_USB)
 
     # ESD out -> inline R -> U2. DP (west pin 47) takes the SOUTH lane
-    # y16.15; DM (east pin 46) the NORTH lane y15.55 — DM's lane may
+    # y16.15; DM (east pin 46) the NORTH lane y15.55, DM's lane may
     # cross DP's resistor column only at y15.55, above DP's vertical
     # (which starts at 16.15). At the MCU end DM must cross DP's lane:
     # it does so on B.Cu between two 0.5 mm vias, then necks into its
@@ -347,7 +347,7 @@ def power_entry(board):
     field and the flash pads (y=7.9), run west to the fuse (RAW pad
     forced north by the placement fixup), then a short south-side hop
     into the FET drain. Every pad resolved by net. The 5V path only
-    sees the 2 A flash pulse for 150 ms — comfortably inside 0.8 mm
+    sees the 2 A flash pulse for 150 ms, comfortably inside 0.8 mm
     copper transient capability (steady draw is <0.5 A)."""
     j8, q1 = get(board, "J8"), get(board, "Q1")
     f1 = get(board, "F1")
@@ -357,7 +357,7 @@ def power_entry(board):
     assert fin[1] < fout[1], "F1 orientation fixup missing"
     # 0.5 mm lane in the 0.9 mm band between the header's THT pads
     # (edge y8.39) and the flash pads (edge y9.27). Carries ~0.5 A
-    # steady; the 2.3 A flash pulse is a 150 ms transient — far below
+    # steady; the 2.3 A flash pulse is a 150 ms transient, far below
     # IPC-2221 transient capability for 0.5 mm (see power budget).
     lane = 8.84
     w = 0.5
@@ -370,7 +370,7 @@ def power_entry(board):
     add_track(board, "PI5V_RAW",
               [p2, (p2[0], lane), (bx, lane), (bx, fin[1]), fin], w)
     qd = npos(q1, "PI5V_FUSED")      # FET drain (west-facing at rot180)
-    # straight south out of the fuse pad, then east into the drain —
+    # straight south out of the fuse pad, then east into the drain,
     # stays south of the RAW lane the whole way
     add_track(board, "PI5V_FUSED",
               [fout, (fout[0], qd[1]), qd], W_PWR)
@@ -460,7 +460,7 @@ def vled_drops(board):
 def vbat(board):
     """Battery pass-through carries up to 5 A: JST -> 10 mΩ shunt ->
     JST in 1.5 mm copper (IPC-2221 external, 10 °C: ~3 A/mm → 1.5 mm
-    ≈ 4.5 A steady; the 5 A case is transient camera peaks — noted in
+    ≈ 4.5 A steady; the 5 A case is transient camera peaks, noted in
     the verification report). INA219 sense taps ride the same nets."""
     j5, j6, r19 = get(board, "J5"), get(board, "J6"), get(board, "R19")
     jin = npos(j5, "VBAT_IN")
@@ -502,7 +502,7 @@ def led_returns(board):
 def qfn_power_fanout(board):
     """U2's power pins that the corridors cut off from their caps get
     dedicated fanouts (0.25 mm) to 3V3 plane vias, using the free ring
-    between the QFN pad row and the exposed pad — the standard escape
+    between the QFN pad row and the exposed pad, the standard escape
     when the periphery is congested. Coordinates assume U2 at (30,21).
     - pins 43 (ADC_AVDD) + 44 (VREG_VIN): east link at y16.9 (between
       the pad tips and the USB DM lane) to a via at (33.05, 17.05);
@@ -516,7 +516,7 @@ def qfn_power_fanout(board):
     w = 0.25
     # north-east interior cluster (pins 43 ADC_AVDD + 44 VREG_VIN):
     # via sits on pin 43's own column (the channel between the EP and
-    # the right-hand pad column is only 0.4 mm — unusable)
+    # the right-hand pad column is only 0.4 mm, unusable)
     for n in ("43", "44"):
         add_track(board, "+3V3", [p[n], (p[n][0], 18.6)], w)
     add_track(board, "+3V3", [(p["44"][0], 18.6), (p["43"][0], 18.6),
@@ -668,7 +668,7 @@ def plane_stubs(board):
     print("plane stubs:", stats)
 
     # +3V3 pads inside the VLED island's top band (east half) cannot
-    # tap In2 locally — feed them south into the 3V3 region between
+    # tap In2 locally, feed them south into the 3V3 region between
     # the reservoir pocket (ends x50) and the right strip (starts x69)
     for fp in board.GetFootprints():
         for p in fp.Pads():

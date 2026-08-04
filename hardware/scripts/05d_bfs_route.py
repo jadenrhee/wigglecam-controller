@@ -1,5 +1,5 @@
 """Deterministic single-net B.Cu maze route (BFS on a 0.4 mm grid over
-the true obstacle map) — used for the one leg (ENC_A) that both the
+the true obstacle map), used for the one leg (ENC_A) that both the
 autorouter and hand lanes kept failing. Endpoints get vias; the F.Cu
 tails tie into the existing net copper.
 """

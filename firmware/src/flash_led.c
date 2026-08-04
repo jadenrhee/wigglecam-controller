@@ -2,11 +2,11 @@
 //
 // PIN_FLASH_PWM feeds an RC filter + divider producing the op-amp
 // current-sink reference (100 % duty = 0.5 V = 1.00 A per branch).
-// Firmware enforces: total LED-on time <= FLASH_MAX_MS — the ~5 ms
-// pre-sync settle counts against the budget — cooldown >=
-// FLASH_COOLDOWN_MS (thermal duty for the SOT-23 sinks), and the pin
-// idles LOW so the board's 100k pulldown and this driver agree the
-// flash is off.
+// Firmware enforces total LED-on time <= FLASH_MAX_MS (the ~5 ms
+// pre-sync settle counts against the budget), cooldown >=
+// FLASH_COOLDOWN_MS (thermal duty for the SOT-23 sinks), and a pin
+// that idles LOW so the board's 100k pulldown and this driver agree
+// the flash is off.
 //
 // Everything here is nonblocking: callers start a sequence, and
 // flash_poll() (main loop) walks it through its states. Nothing
@@ -42,7 +42,7 @@ void flash_init(void) {
     gpio_set_function(PIN_FLASH_PWM, GPIO_FUNC_PWM);
     slice = pwm_gpio_to_slice_num(PIN_FLASH_PWM);
     chan = pwm_gpio_to_channel(PIN_FLASH_PWM);
-    // 125 MHz / (62.5 * 100) = 20 kHz — far above the 160 Hz RC pole,
+    // 125 MHz / (62.5 * 100) = 20 kHz, far above the 160 Hz RC pole,
     // so the reference is clean DC.
     pwm_set_clkdiv(slice, 62.5f);
     pwm_set_wrap(slice, 99);

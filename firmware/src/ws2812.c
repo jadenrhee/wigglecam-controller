@@ -31,8 +31,9 @@ void ws2812_init(uint pin) {
 
 void ws2812_set(uint8_t r, uint8_t g, uint8_t b) {
     uint32_t grb = ((uint32_t)g << 16) | ((uint32_t)r << 8) | b;
-    // callable from the I2C IRQ: never block on the FIFO — at 800 kbit
-    // it drains in ~30 us, so a full FIFO only means a color is dropped
+    // callable from the I2C IRQ, so never block on the FIFO. At
+    // 800 kbit it drains in ~30 us, so a full FIFO only means a
+    // color is dropped
     if (!pio_sm_is_tx_fifo_full(pio, sm))
         pio_sm_put(pio, sm, grb << 8);
 }

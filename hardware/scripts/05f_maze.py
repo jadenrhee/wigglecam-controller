@@ -12,7 +12,7 @@ import pcbnew
 from kicad_common import BOARD_PATH, BOARD_H, BOARD_W, FromMM, mm, to_local
 
 NET = "ENC_A"
-START = (51.8, 4.7)     # R25.2 pad — routing starts ON the pad
+START = (51.8, 4.7)     # R25.2 pad, routing starts ON the pad
 GOAL = (26.6, 23.6)     # U2 pin 14 (GPIO11) pad
 STEP = 0.35
 CLR_TRACK = 0.28        # halfwidth 0.125 + clearance 0.15

@@ -8,4 +8,4 @@ curl -L -o tools/freerouting-1.9.jar \
 ```
 
 v1.9.0 is the version the pipeline uses (v2.2.x crashed on this
-board's DSN — deep recursion in PolylineTrace.combine).
+board's DSN, deep recursion in PolylineTrace.combine).

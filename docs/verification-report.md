@@ -1,18 +1,18 @@
 # Verification report
 
-Generated 2026-07-02 by `hardware/scripts/07_verify.py`, which measures the final `wigglecam.kicad_pcb` directly — every value below is a measurement or a machine check, not an assertion.
+Generated 2026-07-02 by `hardware/scripts/07_verify.py`, which measures the final `wigglecam.kicad_pcb` directly. Every value below is a measurement or a machine check, not an assertion.
 
 | # | Area | Rule | Measured | Verdict | Source |
 |---|------|------|----------|---------|--------|
 | 1 | QSPI | flash within 20 mm of the RP2040 | 12.8 mm center-to-center | **PASS** | RP2040 hardware design guide (RP-008279-DS); PCB Artists RP2040 layout notes |
-| 2 | QSPI | CLK is the longest QSPI trace | CLK 8.3 mm vs data 7.8–19.9 mm; SS total 50.1 mm incl. its off-bus BOOTSEL-button leg | **DEVIATION** | PCB Artists RP2040 layout notes. **Accepted:** the far-side data wraps exceed CLK by 11.6 mm ≈ 70 ps — about 1.9% of the 133 MHz half-period; the rule targets much faster/longer buses. Data arrive early relative to CLK, which errs in the safe direction for setup time. |
+| 2 | QSPI | CLK is the longest QSPI trace | CLK 8.3 mm vs data 7.8-19.9 mm; SS total 50.1 mm incl. its off-bus BOOTSEL-button leg | **DEVIATION** | PCB Artists RP2040 layout notes. **Accepted:** the far-side data wraps exceed CLK by 11.6 mm ≈ 70 ps, about 1.9% of the 133 MHz half-period; the rule targets much faster/longer buses. Data arrive early relative to CLK, which errs in the safe direction for setup time. |
 | 3 | QSPI | data lines length-matched | spread 12.1 mm ≈ 73 ps | **PASS** | RP2040 datasheet timing budget (SDR, 7.5 ns period) |
 | 4 | QSPI | trace width ~0.15 mm | widths [0.15] | **PASS** | PCB Artists RP2040 layout notes |
 | 5 | QSPI | series R in SCLK near the flash | 27 Ω at 6.3 mm from flash | **PASS** | PCB Artists RP2040 layout notes (series termination option) |
 | 6 | Crystal | load caps adjacent to the crystal | cap-to-crystal-pad 3.2, 5.7 mm | **PASS** | RP2040 hardware design guide §2.2 |
 | 7 | Crystal | XIN/XOUT short | total crystal-net copper 44.6 mm (includes both load-cap ties and the series-R leg; the direct U2-to-crystal legs are the ~5 mm placement distance) | **DEVIATION** | RP2040 hardware design guide §2.2. **Accepted:** longer than a hand-optimized layout (the Pico achieves ~10 mm total) because the load-cap ties detour around the congested region. A 12 MHz fundamental crystal is highly tolerant of load-trace length; the ties run over the solid In1 GND plane. Flagged for visual review. |
 | 8 | Crystal | crystal nets isolated from QSPI | min endpoint separation 6.9 mm | **PASS** | RP2040 hardware design guide §2.2 (keep XIN/XOUT away from fast signals) |
-| 9 | Decoupling | 100 nF adjacent to every RP2040 power pin | pin-to-nearest-cap 2.5–8.0 mm (2 of 8 pins <3 mm) | **DEVIATION** | RP2040 hardware design guide §2.1 (place decoupling close). **Accepted:** most pins sit 3.8–8.0 mm from their nearest cap pad; the worst are IOVDD pins 33 (8.0 mm) and 22 (6.1 mm), whose natural spots the USB corridor and QSPI fanout own. Every measured pin reaches the 3V3 plane through a via within 3.3 mm (pin 22 at 1.3 mm, pin 33 at 1.9 mm), so decoupling works through the plane rather than pad-to-pad — worse than the guide's intent, tolerable at these edge rates. Flagged in the review checklist. |
+| 9 | Decoupling | 100 nF adjacent to every RP2040 power pin | pin-to-nearest-cap 2.5-8.0 mm (2 of 8 pins <3 mm) | **DEVIATION** | RP2040 hardware design guide §2.1 (place decoupling close). **Accepted:** most pins sit 3.8-8.0 mm from their nearest cap pad; the worst are IOVDD pins 33 (8.0 mm) and 22 (6.1 mm), whose natural spots the USB corridor and QSPI fanout own. Every measured pin reaches the 3V3 plane through a via within 3.3 mm (pin 22 at 1.3 mm, pin 33 at 1.9 mm), so decoupling works through the plane rather than pad-to-pad, which is worse than the guide's intent but tolerable at these edge rates. Flagged in the review checklist. |
 | 10 | Decoupling | QFN center pad stitched to GND with >=9 vias | 9 vias in the EP | **PASS** | RP2040 hardware design guide §2.1 |
 | 11 | USB | pair length-matched | DP 39.6 mm vs DM 40.4 mm (Δ 0.8 mm; USB-FS intra-pair budget is generous) | **PASS** | USB 2.0 spec §7.1.6 (FS); Intel HSD guidelines for FS routing |
 | 12 | USB | differential geometry 0.36 mm width (90 Ω on JLC04161H-7628 per JLCPCB impedance calculator; the oft-cited 0.8 mm applies to 2-layer 1.6 mm boards) with documented 0.25/0.3 mm necks at the QFN and connector fields | widths used: [0.25, 0.3, 0.36] | **PASS** | JLCPCB impedance calculator (JLC04161H-7628); deviation documented below |
@@ -33,8 +33,8 @@ Generated 2026-07-02 by `hardware/scripts/07_verify.py`, which measures the fina
 
 These are called out rather than hidden:
 
-- **USB differential width** deviates from the commonly quoted 0.8 mm because that figure assumes a 2-layer 1.6 mm board; on JLC04161H-7628 the 90 Ω geometry is ≈0.36 mm (JLCPCB impedance calculator). Short 0.25/0.3 mm necks exist at the QFN pads and connector field — at USB-FS (12 Mbps) these are electrically negligible.
-- **USB series resistors** sit mid-corridor (~15 mm from the RP2040) rather than hard against it — a placement-congestion trade-off, acceptable at FS speeds.
+- **USB differential width** deviates from the commonly quoted 0.8 mm because that figure assumes a 2-layer 1.6 mm board; on JLC04161H-7628 the 90 Ω geometry is ≈0.36 mm (JLCPCB impedance calculator). Short 0.25/0.3 mm necks exist at the QFN pads and connector field; at USB-FS (12 Mbps) these are electrically negligible.
+- **USB series resistors** sit mid-corridor (~15 mm from the RP2040) rather than hard against it, a placement-congestion trade-off that is acceptable at FS speeds.
 - **A handful of via-in-pad plane taps** were used where the fanout was too dense for offset stubs (flagged in the layout scripts' NEEDS-REVIEW output). For hand assembly this is a non-issue; for reflow, request unfilled vias or accept minor solder wicking on those 0603 pads.
 - **Final-mile airwire closes** (scripts 05_finish through 05i) were validated only by the DRC gate; give the affected areas (encoder net ENC_A's cross-board route, the VLED island patches) a visual pass in the KiCad GUI before ordering.
 - **VREG_1V1 pin-23 leg** routes via B.Cu under the crystal pocket; verify visually that it keeps clear of the XIN/XOUT region (DRC passes; the concern is aesthetic/EMI-marginal).

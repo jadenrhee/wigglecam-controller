@@ -61,7 +61,7 @@ class Grid:
         self.used = set()
 
     def _cells(self, x0, y0, x1, y1):
-        # range() already excludes the stop index — a former +1 here
+        # range() already excludes the stop index, a former +1 here
         # phantom-padded every box AND every probe by one cell, which
         # compounded into ~500 mm² of fake occupancy board-wide
         import math
@@ -81,7 +81,7 @@ class Grid:
 def fp_bbox_mm(fp):
     """(x0,y0,x1,y1) local-mm box: union of the reported bbox and every
     pad box. Some footprints (PinSocket, EC11) report origin-centered
-    boxes that EXCLUDE their pad fields — trust pads over the report."""
+    boxes that EXCLUDE their pad fields, trust pads over the report."""
     bb = fp.GetBoundingBox(False)
     x0 = pcbnew.ToMM(bb.GetX()) - ORIGIN[0]
     y0 = pcbnew.ToMM(bb.GetY()) - ORIGIN[1]
@@ -98,7 +98,7 @@ def fp_bbox_mm(fp):
 
 
 def fp_extent(fp, margin=0.28):
-    """Half-size (w/2, h/2) in mm around the footprint POSITION —
+    """Half-size (w/2, h/2) in mm around the footprint POSITION,
     conservative: max distance from position to any box edge."""
     x0, y0, x1, y1 = fp_bbox_mm(fp)
     cx, cy = to_local(fp.GetPosition())

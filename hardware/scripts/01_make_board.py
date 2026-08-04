@@ -23,7 +23,7 @@ from kicad_common import (BOARD_PATH, BOARD_H, BOARD_W, FromMM, Grid,
                           pad_pos, place_free, save, to_local)
 
 # ------------------------------------------------------------- anchors ----
-# ref: (x, y, rotation_deg)  — local mm, origin top-left, +y down.
+# ref: (x, y, rotation_deg) , local mm, origin top-left, +y down.
 ANCHORS = {
     "U2": (30, 21, 0),        # RP2040: QSPI pins 51-56 exit the top edge
     "U3": (20.7, 12.2, 0),    # flash up-left, ~10 mm from U2
@@ -32,7 +32,7 @@ ANCHORS = {
     "U4": (38, 35, 90),       # USB ESD between connector and MCU
     "J2": (38, 47.7, 0),      # USB-C, mouth out the bottom edge
     "J8": (19.65, 4.4, 90),   # Pi 2x6 socket: pin1 at origin, pins
-                              # extend EAST — this centers it ~26
+                              # extend EAST, this centers it ~26
     "J1": (48, 46, 90),       # SWD 1x3
     "F1": (8.5, 7, 90),       # power entry, top-left (clear of H1)
     "Q1": (12.5, 11, 180),    # reverse-polarity FET; rot180 puts the
@@ -51,7 +51,7 @@ ANCHORS = {
     "J6": (2.9, 44, 90),
     "J7": (2.9, 25, 90),      # shutter JST, left edge
     "SW3": (55, 8.5, 0),      # encoder, top-right (clear of H2 hole)
-    "SW1": (23.5, 44.2, 0),   # BOOTSEL — stacked with RUN, west of
+    "SW1": (23.5, 44.2, 0),   # BOOTSEL, stacked with RUN, west of
     "SW2": (23.5, 36.2, 0),   # the USB corridor (no side-by-side room)
     "D4": (59, 46, 0),        # WS2812B (clear of SWD pins ending x53.1)
     "D5": (47, 28, 0),        # 1N4148WS
@@ -244,7 +244,7 @@ def main():
     byref = {p["ref"]: p for p in bridge["parts"]}
     placed = set(anchors)
 
-    # VLED reservoirs claim their channel spots FIRST — the decoupling
+    # VLED reservoirs claim their channel spots FIRST, the decoupling
     # spiral otherwise fills the only zone big enough for them
     res_refs = [p["ref"] for p in bridge["parts"]
                 if p["name"] == "C" and p["value"] == "470uF"]
@@ -259,7 +259,7 @@ def main():
     assert len(caps_100n_33) == len(CAP_100N_3V3_TARGETS), \
         (caps_100n_33, CAP_100N_3V3_TARGETS)
     def orient_cap_toward(capref, net, px, py):
-        """Rotate a 2-pin cap so its `net` pad faces the target pad —
+        """Rotate a 2-pin cap so its `net` pad faces the target pad,
         the pin->cap hop then runs straight and short."""
         fp = fps[capref]
         pads = {p.GetNetname(): to_local(p.GetPosition())

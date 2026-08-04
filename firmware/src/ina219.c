@@ -6,7 +6,7 @@
 // register at 3.28 A and wrap negative above it.
 //
 // Effective shunt resistance: the part (R19) is 10 mΩ, but the layout's
-// sense taps are not Kelvin — they join the 1.5 mm battery trace a few
+// sense taps are not Kelvin; they join the 1.5 mm battery trace a few
 // mm from the shunt pads, putting roughly 3 mΩ of copper inside the
 // sense loop, so uncorrected current/power read ~30 % high. Trim
 // SHUNT_EFF_MOHM against a series bench meter at bring-up (expect

@@ -1,11 +1,11 @@
-"""Camera Controller — full circuit connectivity.
+"""Full circuit connectivity for the Camera Controller.
 
 Block-by-block wiring with design math inline. Sources:
-- "Hardware design with RP2040" (Raspberry Pi, RP-008279-DS) — MCU
+- "Hardware design with RP2040" (Raspberry Pi, RP-008279-DS): MCU
   support circuit, crystal values, USB series Rs, decoupling counts.
-- RP2040 datasheet §1.4.2 — pin map (transcribed in parts.py).
-- TI INA219 datasheet — monitor wiring, address straps.
-- ST USBLC6-2 datasheet — flow-through ESD routing.
+- RP2040 datasheet §1.4.2: pin map (transcribed in parts.py).
+- TI INA219 datasheet: monitor wiring, address straps.
+- ST USBLC6-2 datasheet: flow-through ESD routing.
 - Sedra/Smith op-amp current-sink topology for the flash driver.
 """
 
@@ -23,7 +23,7 @@ VSYS.drive = POWER            # driven through the OR diodes (skidl
                               # doesn't propagate drive through parts)
 V33 = Net("+3V3")
 VLED = Net("VLED")            # 5 V from Pi, post fuse + reverse-FET;
-                              # doubles as the flash rail — tapped here, so a
+                              # doubles as the flash rail, tapped here so a
                               # laptop USB port can never source the 2 A
                               # flash pulse (VBUS is diode-isolated)
 VBAT_IN = Net("VBAT_IN")      # battery pass-through, shunt high side
@@ -107,7 +107,7 @@ def mcu_core():
     c = P.C("1uF"); c[1] += vreg_out; c[2] += GND     # VREG_VOUT
     c = P.C("10uF", "0805"); c[1] += V33; c[2] += GND # bulk
 
-    # --- crystal: guide fig. "Crystal" — 12 MHz CL=10 pF ABM8-272-T3,
+    # --- crystal: guide fig. "Crystal", 12 MHz CL=10 pF ABM8-272-T3,
     # 15 pF load caps (2×15 pF series → 7.5 pF + ~2.5 pF stray ≈ CL),
     # 1 kΩ series on XOUT to limit drive level.
     xin, xout, xtal_b = Net("XIN"), Net("XOUT"), Net("XOUT_XTAL")
@@ -168,7 +168,7 @@ def mcu_core():
     btn_run[1] += run; btn_run[4] += GND     # diagonal pads, as above
     btn_run[2] += NC; btn_run[3] += NC
 
-    # spare GPIOs — deliberately unused (ERC-visible intent)
+    # spare GPIOs, deliberately unused (ERC-visible intent)
     for g in (8, 9, 14, 15, 17, 18, 19, 20, 21, 23, 24, 26, 27, 28, 29):
         u[f"GPIO{g}" if g < 26 else f"GPIO{g}_ADC{g-26}"] += NC
 
@@ -182,10 +182,10 @@ def mcu_core():
 
 
 def usb(u):
-    """USB-C device port: CC pulldowns advertise UFP (USB spec §4.5.1.2
-    — 5.1 kΩ Rd), USBLC6 in the data path ahead of the MCU, 27 Ω
+    """USB-C device port: CC pulldowns advertise UFP (USB spec §4.5.1.2,
+    5.1 kΩ Rd), USBLC6 in the data path ahead of the MCU, 27 Ω
     series Rs at the RP2040 pins per the design guide (guide nominal is
-    27 Ω; the Pico's 27.4 Ω is the E96 neighbour — electrically
+    27 Ω; the Pico's 27.4 Ω is the E96 neighbour, electrically
     equivalent at USB-FS, and 27 Ω is a JLC basic part)."""
     j = P.USBC()
     esd = P.USBLC6()
@@ -228,14 +228,14 @@ def flash_driver(u):
 
     Per branch: LM358 half drives AO3400A gate; source-sense 0.5 Ω 1 %
     closes the loop: I = VREF/0.5 Ω. VREF from GPIO16 PWM → RC (1 k /
-    1 µF, fc≈160 Hz) → 5.6 k over 1.18 k divider → 0–0.5 V for 0–100 %
+    1 µF, fc≈160 Hz) → 5.6 k over 1.18 k divider → 0-0.5 V for 0-100 %
     duty. The RC's 1 k is in series with the divider's top leg, so the
     settled full-scale value is 3.3 × 1.18/(1 + 5.6 + 1.18) = 0.50 V;
     a plain 1 k bottom leg would settle at 3.3/7.6 = 0.434 V → 0.87 A.
     100 k pulldown holds VREF at 0 V through boot (RP2040 GPIO defaults
     to hi-Z; pulldown wins → flash cannot fire before firmware).
     Dissipation at 1 A: FET (4.9−3.0−0.5) V ≈ 1.4 W and sense 0.5 W,
-    150 ms pulse — pulse-thermal check is a verification-report gate.
+    150 ms pulse, pulse-thermal check is a verification-report gate.
     Reservoir 2×470 µF on VLED sources the pulse leading edge.
     """
     op = P.LM358()
@@ -282,7 +282,7 @@ def battery_monitor(u):
     """INA219 high-side on a battery pass-through (JST in → 10 mΩ 2 W
     shunt → JST out). 5 A worst case → 50 mV (PGA ±320 mV range),
     0.25 W in a 2 W part. Address A0=A1=GND → 0x40. Lives on the
-    board-internal I2C0 bus (RP2040 master) — isolated from the
+    board-internal I2C0 bus (RP2040 master), isolated from the
     Pi-facing bus."""
     ina = P.INA219()
     sh = P.SHUNT()
@@ -310,7 +310,7 @@ def battery_monitor(u):
 def controls(u):
     """Shutter (off-board button via JST): 10 k pullup, 1 k series +
     100 nF at the MCU (RC τ=1 ms hardware debounce first stage), TVS
-    at the connector — the line leaves the enclosure wall, so it gets
+    at the connector, the line leaves the enclosure wall, so it gets
     ESD treatment. EC11 A/B/SW get the same RC conditioning (ALPS
     application note pattern)."""
     j = P.JST_XH2("SHUTTER")
@@ -334,7 +334,7 @@ def controls(u):
         u[gpio] += sig_n
     enc["S2"] += GND
 
-    # WS2812B: VDD through 1N4148 (≈4.3 V) so VIH = 0.7·VDD ≈ 3.0 V —
+    # WS2812B: VDD through 1N4148 (≈4.3 V) so VIH = 0.7·VDD ≈ 3.0 V,
     # drivable from 3.3 V logic within spec (Worldsemi datasheet).
     led = P.WS2812B()
     d = P.D4148()
@@ -357,17 +357,17 @@ def controls(u):
 
 
 def pi_header(u):
-    """2×6 socket seating on Pi 5 GPIO pins 1–12. 330 Ω series on the
+    """2×6 socket seating on Pi 5 GPIO pins 1-12. 330 Ω series on the
     push-pull lines (UART, sync) as contention insurance; I2C is
     open-drain and connects direct (Pi 5 has 1.8 kΩ pullups on
-    GPIO2/3 — board adds none)."""
+    GPIO2/3, board adds none)."""
     j = P.PI_HDR()
-    j["P1"] += NC                # Pi 3V3 — reference only, unused
+    j["P1"] += NC                # Pi 3V3, reference only, unused
     j["P2"] += PI5V_RAW
     j["P4"] += PI5V_RAW
     j["P6"] += GND
     j["P9"] += GND
-    j["P7"] += NC                # Pi GPIO4 — spare, unused
+    j["P7"] += NC                # Pi GPIO4, spare, unused
 
     sda, scl = Net("PI_SDA"), Net("PI_SCL")
     j["P3"] += sda; u["GPIO2"] += sda   # Pi master ↔ RP2040 I2C1 slave
@@ -381,4 +381,4 @@ def pi_header(u):
     series("UART_RX", j["P8"], u["GPIO1"])    # Pi TXD → RP2040 RX
     series("UART_TX", j["P10"], u["GPIO0"])   # RP2040 TX → Pi RXD
     series("CAM_SYNC", j["P11"], u["GPIO6"])  # sync pulse → Pi GPIO17
-    series("SPARE_IO", j["P12"], u["GPIO7"])  # ↔ Pi GPIO18; carries ATTN (see docs/protocol.md) — net name predates the routed board
+    series("SPARE_IO", j["P12"], u["GPIO7"])  # ↔ Pi GPIO18; carries ATTN (see docs/protocol.md), net name predates the routed board

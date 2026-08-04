@@ -2,7 +2,7 @@
 
 Every part is defined from scratch with an explicit pin map transcribed
 from its datasheet (cited per part) instead of relying on symbol-library
-lookups — a scripted flow must not depend on library naming that can
+lookups, a scripted flow must not depend on library naming that can
 drift. Footprint strings reference the official KiCad 9 footprint
 libraries; their existence on disk is asserted by the layout script
 before placement, and anything missing is generated into a local
@@ -79,8 +79,7 @@ RP2040 = _p(
         Pin(num="55", name="QSPI_SD1", func=BI),
         Pin(num="56", name="QSPI_SS_N", func=OUT),
         Pin(num="57", name="GND", func=PWRIN),   # exposed pad
-    ],
-)
+    ])
 
 # W25Q128JVSIQ, SOIC-8 208 mil. Pin map: Winbond W25Q128JV datasheet §3.1.
 W25Q128 = _p(
@@ -96,8 +95,7 @@ W25Q128 = _p(
         Pin(num="6", name="CLK", func=IN),
         Pin(num="7", name="HOLD_IO3", func=BI),
         Pin(num="8", name="VCC", func=PWRIN),
-    ],
-)
+    ])
 
 # ABM8-272-T3 12 MHz, CL=10 pF. 3225 4-pad: pins 1/3 crystal, 2/4 GND.
 XTAL_12M = _p(
@@ -109,8 +107,7 @@ XTAL_12M = _p(
         Pin(num="2", name="GND", func=PWRIN),
         Pin(num="3", name="X2", func=PAS),
         Pin(num="4", name="GND", func=PWRIN),
-    ],
-)
+    ])
 
 # AP2112K-3.3, SOT-23-5. Pin map: Diodes Inc AP2112 datasheet.
 AP2112K = _p(
@@ -123,8 +120,7 @@ AP2112K = _p(
         Pin(num="3", name="EN", func=IN),
         Pin(num="4", name="NC", func=NOCON),
         Pin(num="5", name="VOUT", func=PWROUT),
-    ],
-)
+    ])
 
 # USBLC6-2SC6, SOT-23-6. Pin map: ST USBLC6-2 datasheet (flow-through:
 # line enters pin 1/3, exits pin 6/4).
@@ -139,8 +135,7 @@ USBLC6 = _p(
         Pin(num="4", name="IO2B", func=PAS),
         Pin(num="5", name="VBUS", func=PWRIN),
         Pin(num="6", name="IO1B", func=PAS),
-    ],
-)
+    ])
 
 # USB-C receptacle, HRO TYPE-C-31-M-12 (16 pin, USB 2.0). Pad names
 # match KiCad's USB_C_Receptacle_HRO_TYPE-C-31-M-12 footprint; the
@@ -167,8 +162,7 @@ USBC = _p(
         Pin(num="B7", name="DM2", func=BI),
         Pin(num="B8", name="SBU2", func=NOCON),
         Pin(num="SH", name="SHIELD", func=PAS),
-    ],
-)
+    ])
 
 # AO3400A N-ch / AO3401A P-ch, SOT-23: 1=G 2=S 3=D (AOS datasheets).
 AO3400A = _p(
@@ -176,15 +170,13 @@ AO3400A = _p(
     lcsc="C20917", value="AO3400A",
     pins=[Pin(num="1", name="G", func=IN),
           Pin(num="2", name="S", func=PAS),
-          Pin(num="3", name="D", func=PAS)],
-)
+          Pin(num="3", name="D", func=PAS)])
 AO3401A = _p(
     "AO3401A", "Q", "Package_TO_SOT_SMD:SOT-23",
     lcsc="C15127", value="AO3401A",
     pins=[Pin(num="1", name="G", func=IN),
           Pin(num="2", name="S", func=PAS),
-          Pin(num="3", name="D", func=PAS)],
-)
+          Pin(num="3", name="D", func=PAS)])
 
 # LM358, SOIC-8. Pin map: TI/onsemi LM358 datasheet.
 LM358 = _p(
@@ -199,8 +191,7 @@ LM358 = _p(
         Pin(num="6", name="IN2-", func=IN),
         Pin(num="7", name="OUT2", func=OUT),
         Pin(num="8", name="V+", func=PWRIN),
-    ],
-)
+    ])
 
 # INA219AIDCNR, SOT-23-8. Pin map: TI INA219 datasheet (DCN package):
 # 1 IN+, 2 IN-, 3 GND, 4 VS, 5 SCL, 6 SDA, 7 A0, 8 A1.
@@ -216,8 +207,7 @@ INA219 = _p(
         Pin(num="6", name="SDA", func=BI),
         Pin(num="7", name="A0", func=IN),
         Pin(num="8", name="A1", func=IN),
-    ],
-)
+    ])
 
 # WS2812B 5050: 1 VDD, 2 DOUT, 3 VSS, 4 DIN (Worldsemi datasheet).
 WS2812B = _p(
@@ -228,8 +218,7 @@ WS2812B = _p(
         Pin(num="2", name="DOUT", func=OUT),
         Pin(num="3", name="VSS", func=PWRIN),
         Pin(num="4", name="DIN", func=IN),
-    ],
-)
+    ])
 
 # ALPS EC11E vertical, with push switch: A/C/B + S1/S2.
 EC11 = _p(
@@ -242,8 +231,7 @@ EC11 = _p(
         Pin(num="C", name="COM", func=PAS),
         Pin(num="S1", name="SW1", func=PAS),
         Pin(num="S2", name="SW2", func=PAS),
-    ],
-)
+    ])
 
 # TS-1187A-B-A-B tact switch: pins 1/2 and 3/4 are internally paired
 # (XKB datasheet); custom footprint generated into wigglecam.pretty.
@@ -253,34 +241,30 @@ TACT = _p(
     pins=[Pin(num="1", name="A", func=PAS),
           Pin(num="2", name="A2", func=PAS),
           Pin(num="3", name="B", func=PAS),
-          Pin(num="4", name="B2", func=PAS)],
-)
+          Pin(num="4", name="B2", func=PAS)])
 
 # PESD5V0S1BA bidirectional TVS, SOD-323.
 TVS_5V = _p(
     "PESD5V0S1BA", "D", "Diode_SMD:D_SOD-323",
     lcsc="C19224", value="PESD5V0S1BA",
     pins=[Pin(num="1", name="K", func=PAS),
-          Pin(num="2", name="A", func=PAS)],
-)
+          Pin(num="2", name="A", func=PAS)])
 
-# SS34 3A Schottky, SMA. Commodity part; LCSC C8678 class — final
+# SS34 3A Schottky, SMA. Commodity part; LCSC C8678 class, final
 # number confirmed at BOM generation.
 SS34 = _p(
     "SS34", "D", "Diode_SMD:D_SMA",
     lcsc="C8678", value="SS34",
     pins=[Pin(num="1", name="K", func=PAS),
-          Pin(num="2", name="A", func=PAS)],
-)
+          Pin(num="2", name="A", func=PAS)])
 
-# 1N4148W small-signal diode, SOD-123 (WS2812 VDD drop) — footprint
+# 1N4148W small-signal diode, SOD-123 (WS2812 VDD drop), footprint
 # matches the stock-verified C81598 (SOD-123 variant).
 D4148 = _p(
     "1N4148W", "D", "Diode_SMD:D_SOD-123",
     lcsc="C81598", value="1N4148W",
     pins=[Pin(num="1", name="K", func=PAS),
-          Pin(num="2", name="A", func=PAS)],
-)
+          Pin(num="2", name="A", func=PAS)])
 
 # PTC resettable fuse: BHFUSE BSMD1812-300-16V, 3 A hold
 # (stock-verified C883162).
@@ -288,8 +272,7 @@ PTC_3A = _p(
     "BSMD1812-300", "F", "Fuse:Fuse_1812_4532Metric",
     lcsc="C883162", value="PTC 3A",
     pins=[Pin(num="1", name="1", func=PAS),
-          Pin(num="2", name="2", func=PAS)],
-)
+          Pin(num="2", name="2", func=PAS)])
 
 # Generic two-terminal passives ------------------------------------------
 # LCSC picks for the generic values, verified against lcsc.com
@@ -302,7 +285,7 @@ LCSC_R = {
     "470R":    "C23179",   # 0603WAF4700T5E
     "1k":      "C21190",   # 0603WAF1001T5E
     "1.18k":   "",         # 0603WAF1181T5E (E96, VREF divider bottom leg)
-                           # — confirm the LCSC number at order
+                           #, confirm the LCSC number at order
     "4.7k":    "C23162",   # 0603WAF4701T5E
     "5.1k":    "C23186",   # 0603WAF5101T5E
     "5.6k":    "C23189",   # 0603WAF5601T5E
@@ -335,7 +318,7 @@ def C(value, size="0603", lcsc=""):
     fp = {"0603": "Capacitor_SMD:C_0603_1608Metric",
           "0805": "Capacitor_SMD:C_0805_2012Metric",
           # 470 µF 6.3 V polymer, EIA-7343 D-case: half the footprint of
-          # an 8 mm can and lower ESR — better as a pulse reservoir
+          # an 8 mm can and lower ESR, better as a pulse reservoir
           "elec": "Capacitor_Tantalum_SMD:CP_EIA-7343-30_AVX-N"}[size]
     return _p("C", "C", fp, lcsc=lcsc or LCSC_C.get(value, ""),
               value=value, template=False,
@@ -356,13 +339,12 @@ LED_G = _p(
     "LED_GREEN", "D", "LED_SMD:LED_0603_1608Metric",
     lcsc="C72043", value="GREEN",
     pins=[Pin(num="1", name="K", func=PAS),
-          Pin(num="2", name="A", func=PAS)],
-)
+          Pin(num="2", name="A", func=PAS)])
 
 # Connectors ---------------------------------------------------------------
 # THT parts, excluded from SMT assembly (hand-solder). The JST shells
 # are genuine JST B2B-XH-A (C158012, verified 2026-07-03); the 2.54 mm
-# socket/header are any-vendor generics — LCSC left blank on purpose so
+# socket/header are any-vendor generics, LCSC left blank on purpose so
 # the JLC BOM tool marks them "do not place".
 def JST_XH2(name):
     return _p(name, "J",
@@ -376,8 +358,7 @@ PI_HDR = _p(
     "PI_HEADER_2x6", "J",
     "Connector_PinSocket_2.54mm:PinSocket_2x06_P2.54mm_Vertical",
     lcsc="", value="Pi GPIO 1-12",
-    pins=[Pin(num=str(n), name=f"P{n}", func=PAS) for n in range(1, 13)],
-)
+    pins=[Pin(num=str(n), name=f"P{n}", func=PAS) for n in range(1, 13)])
 
 SWD_HDR = _p(
     "SWD", "J",
@@ -385,5 +366,4 @@ SWD_HDR = _p(
     lcsc="", value="SWD",
     pins=[Pin(num="1", name="SWCLK", func=PAS),
           Pin(num="2", name="GND", func=PAS),
-          Pin(num="3", name="SWDIO", func=PAS)],
-)
+          Pin(num="3", name="SWDIO", func=PAS)])

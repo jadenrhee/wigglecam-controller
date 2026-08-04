@@ -1,4 +1,4 @@
-"""Surgical closes for the final connectivity gaps — the scripted
+"""Surgical closes for the final connectivity gaps, the scripted
 equivalent of the last half-dozen hand-routed airwires. Coordinates
 were measured from the live board (see git history); each is verified
 by the DRC gate afterwards.

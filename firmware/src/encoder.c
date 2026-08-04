@@ -1,6 +1,6 @@
 // EC11 quadrature decode, IRQ-driven with a full state-transition
 // table (rejects invalid transitions = contact bounce immunity).
-// EC11E18244AU: 36 detents/18 pulses per rev — one detent every half
+// EC11E18244AU: 36 detents/18 pulses per rev, one detent every half
 // quadrature cycle = 2 valid transitions per detent with this table;
 // divide accordingly.
 

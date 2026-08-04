@@ -2,8 +2,8 @@
 
 Run:  python3 build.py
 Outputs (in hardware/):
-  netlist.net   — KiCad-format netlist (committed deliverable)
-  board.json    — {parts: [{ref, name, value, footprint, lcsc,
+  netlist.net   KiCad-format netlist (committed deliverable)
+  board.json    {parts: [{ref, name, value, footprint, lcsc,
                    pads: {padnum: netname}}], nets: [...]}
                   consumed by the pcbnew layout scripts, so the
                   layout stage has zero dependence on netlist parsing.

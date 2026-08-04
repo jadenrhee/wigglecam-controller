@@ -217,7 +217,7 @@ def main():
     poly = z.GetFilledPolysList(pcbnew.In2_Cu)
     mid = mm(28.0, 12.7)
     if not poly.Contains(mid):
-        print("VLED finger fill BROKEN — bridging lobes on B.Cu")
+        print("VLED finger fill BROKEN, bridging lobes on B.Cu")
         vsegs, vdiscs = all_copper("VLED")
         # simple straight B.Cu bridge along the finger line
         a, c = (15.5, 12.7), (40.5, 12.7)

@@ -5,7 +5,7 @@ Usage (KiCad python):
   03_autoroute.py import   -> reads wigglecam.ses back into the board
 
 The Freerouting jar itself is driven from the shell between the two
-steps (see docs/plan.md phase 3): its output is treated as a draft —
+steps (see docs/plan.md phase 3): its output is treated as a draft,
 04_cleanup re-asserts critical geometry and the DRC gate decides.
 """
 

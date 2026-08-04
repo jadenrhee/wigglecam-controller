@@ -3,8 +3,8 @@
 Two-shell 3D-printable case (≈191 × 89 × 40 mm) housing the camera's
 brain: the 4.3" DSI touchscreen behind the left of the face, this
 repo's controller PCB behind the right-hand control strip (components
-facing out — encoder knob, status-LED light pipe and BOOTSEL/RUN
-poke-holes come through the face; USB-C exits the right wall), and a
+facing out so the encoder knob, status-LED light pipe and
+BOOTSEL/RUN poke-holes come through the face; USB-C exits the right wall), and a
 Raspberry Pi 5 flat on the rear floor.
 
 ![assembly](renders/pod_assembly.png)
@@ -21,18 +21,18 @@ If the layout ever changes, re-run the extractor and re-export.
 
 Upload `stl/pod_front.stl` and `stl/pod_back.stl` to any of:
 
-- **[JLC3DP](https://jlc3dp.com)** — cheapest; pick **SLS Nylon
-  (PA12)** for a clean, strong student-budget result (~$15–25 for the
-  pair), or resin if you want smoother faces.
-- **[Craftcloud](https://craftcloud3d.com)** — price-comparison
-  across many services.
+- **[JLC3DP](https://jlc3dp.com)** is the cheapest. Pick **SLS Nylon
+  (PA12)** for a clean, strong result (~$15-25 for the pair), or resin
+  if you want smoother faces.
+- **[Craftcloud](https://craftcloud3d.com)** compares prices across
+  many services.
 - A **library / school makerspace** FDM printer also works: PETG,
   0.2 mm layers, 4 walls, 25 % infill; print both shells face-down
   (flat side on the bed), no supports needed except the side windows
   (bridging distance is small enough for a tuned printer).
 
 **Before ordering**, measure your delivered screen with calipers and
-update `scr_*` in [control_pod.scad](control_pod.scad) — the
+update `scr_*` in [control_pod.scad](control_pod.scad), the
 Waveshare 4.3" module outline/hole values here are typical but marked
 `TODO(measure)` because vendor revisions drift.
 
@@ -45,9 +45,9 @@ Waveshare 4.3" module outline/hole values here are typical but marked
 | M2.5×6 self-tapping screws | 4 | Pi 5 onto the floor bosses |
 | M3×6 self-tapping screws | 4 | screen module |
 | 3 mm acrylic rod, ~6 mm piece | 1 | WS2812 light pipe (press-fit, dab of CA glue) |
-| 12-way 2.54 mm ribbon, 2×6 IDC both ends, ~80 mm | 1 | controller J8 → Pi GPIO pins 1–12 |
+| 12-way 2.54 mm ribbon, 2×6 IDC both ends, ~80 mm | 1 | controller J8 → Pi GPIO pins 1-12 |
 | Knob for 6 mm D-shaft | 1 | encoder |
-| The encoder's own M7 nut + washer | — | clamps the PCB assembly to the face |
+| The encoder's own M7 nut + washer | - | clamps the PCB assembly to the face |
 
 ## Assembly order
 

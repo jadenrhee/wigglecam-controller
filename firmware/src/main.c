@@ -22,7 +22,7 @@
 static uint8_t regs[REG_COUNT];
 
 // Pending capture/flash request. The I2C slave IRQ only records it;
-// the main loop dispatches — no blocking work ever runs in the ISR.
+// the main loop dispatches, so no blocking work ever runs in the ISR.
 enum { REQ_NONE = 0, REQ_SYNC = 1, REQ_FLASH_SYNC = 2, REQ_FLASH_ONLY = 3 };
 static volatile uint8_t flash_req;
 

@@ -1,4 +1,4 @@
-// Pin map — must match hardware/skidl/circuit.py exactly.
+// Pin map. Must match hardware/skidl/circuit.py exactly.
 #pragma once
 
 #define PIN_UART_TX      0   // -> Pi RXD (GPIO15)

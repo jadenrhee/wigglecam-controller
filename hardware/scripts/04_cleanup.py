@@ -18,10 +18,10 @@ sys.path.insert(0, str(Path(__file__).parent))
 import pcbnew
 from kicad_common import BOARD_PATH, BOARD_H, BOARD_W, FromMM, mm, to_local
 
-# NOTE: no blind widening — the autorouter spaced its tracks for
+# NOTE: no blind widening, the autorouter spaced its tracks for
 # 0.2 mm width, so widening violates clearance. The heavy-current
 # paths (VBAT, VLED, LED returns, 5 V entry) are scripted wide in 02;
-# VSYS/VBUS at 0.2 mm carry <=0.65 A — at the IPC-2221 10 °C limit,
+# VSYS/VBUS at 0.2 mm carry <=0.65 A, at the IPC-2221 10 °C limit,
 # documented in the verification report.
 
 
@@ -160,7 +160,7 @@ def stitching(board):
 
 def smd_gnd_solid(board):
     """SMD GND pads connect solid to the pours (their thermal mass is
-    tiny, hand-soldering is unaffected) — avoids starved-thermal DRC
+    tiny, hand-soldering is unaffected), avoids starved-thermal DRC
     where tracks crowd out relief spokes. THT stays thermal-relieved."""
     n = 0
     for fp in board.GetFootprints():

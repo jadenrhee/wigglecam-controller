@@ -1,49 +1,48 @@
 # WiggleCam Camera Controller
 
-This is the second board for my [4-lens camera](https://github.com/jadenrhee/wigglecam).
-The Raspberry Pi runs the camera and does the image work, but it's bad at
-things that have to happen at an exact moment, and it can't drive the
-flash directly. So this board handles that side of it.
+The RP2040 board that handles timing-critical and analog work for a
+[4-lens camera](https://github.com/jadenrhee/wigglecam). The Raspberry
+Pi runs capture and image processing, but Linux is not a real-time OS
+and the Pi can't drive the flash directly.
 
-An RP2040 runs the LED flash at a steady current, with the limits built
-into the circuit rather than just the code. It also debounces the
-shutter so one press counts once, reads the EC11 encoder, and watches
-battery voltage and current through an INA219. When a shot fires, it
-sends the Pi a pulse the instant the LEDs are at full current.
+This board runs the LED flash at constant current, with the limits set
+in the circuit rather than only in firmware. It also debounces the
+shutter, decodes the EC11 encoder, and monitors battery voltage and
+current through an INA219. On a trigger it pulses the Pi the instant the
+LEDs reach full current.
 
-The Pi drives it over I2C at address 0x17, and the pulse comes back on
-its own GPIO line. The header lines up 1:1 with pins 1 to 12 on the Pi.
+The Pi drives it over I2C at 0x17, and the capture pulse returns on its
+own GPIO line. The 2x6 header maps 1:1 onto Pi 5 GPIO pins 1 to 12.
 
-It isn't fabricated yet. Everything below is from the design files.
+Not fabricated yet, so everything here comes from the design files.
 
 ![Board, top](fab/renders/board_top.png)
 ![Board, bottom](fab/renders/board_bottom.png)
 
-Here's the actual routing. Front copper is red, back is blue, and I hid
-the power and ground layers so you can see the traces:
+Signal routing, front copper red and back copper blue, planes hidden:
 
 ![Routing view](fab/renders/layout.svg)
 
 | | |
 |---|---|
 | Board | 76 x 50 mm, 4 layers |
-| Schematic check | 0 errors, 0 warnings |
-| Layout check | DRC clean, nothing left unconnected, against JLCPCB's published 4-layer rules |
-| My own checks | 24 things I measured off the finished layout, nothing failed. [Report here](docs/verification-report.md) |
-| Firmware | builds clean with the Pico SDK |
-| Ordering files | Gerbers, drill, BOM, and placement files are in [fab/](fab/) |
+| Schematic | ERC clean, 0 errors and 0 warnings |
+| Layout | DRC clean, 0 violations and 0 unconnected, against JLCPCB's published 4-layer rules |
+| Verification | 24 checks measured off the finished layout, no failures. [Report](docs/verification-report.md) |
+| Firmware | builds clean under the Pico SDK |
+| Fab outputs | Gerbers, drill, BOM, and placement files in [fab/](fab/) |
 
-## What's in here
+## Repo layout
 
-| Path | What it is |
+| Path | Contents |
 |------|----------|
-| [hardware/skidl/](hardware/skidl/) | the schematic, written as code |
-| [hardware/scripts/](hardware/scripts/) | scripts that build the board, spit out the ordering files, and check my work |
-| [hardware/kicad/](hardware/kicad/) | the actual board file, plus footprints I had to draw myself |
-| [hardware/partlist.md](hardware/partlist.md) | every part, why I picked it, and where to buy it |
-| [fab/](fab/) | the files you'd hand to the board house |
-| [firmware/](firmware/) | the C code that runs on the chip |
-| [enclosure/](enclosure/) | 3D printable case that holds the screen, this board, and the Pi |
-| [docs/](docs/) | [what I checked](docs/verification-report.md), [why I designed it this way](docs/design-rationale.md), and [how the Pi talks to it](docs/protocol.md) |
+| [hardware/skidl/](hardware/skidl/) | schematic as code, the source of record |
+| [hardware/scripts/](hardware/scripts/) | board generation, fab output, and verification tooling |
+| [hardware/kicad/](hardware/kicad/) | the board file and custom footprints |
+| [hardware/partlist.md](hardware/partlist.md) | every part, the reasoning behind it, and where to order it |
+| [fab/](fab/) | Gerbers, Excellon drill, `bom.csv`, `cpl.csv`, renders |
+| [firmware/](firmware/) | C firmware: I2C register file, flash safety logic, INA219, EC11, WS2812 |
+| [enclosure/](enclosure/) | 3D-printable pod holding the screen, this board, and the Pi 5 |
+| [docs/](docs/) | [verification report](docs/verification-report.md), [design rationale](docs/design-rationale.md), and the [Pi protocol](docs/protocol.md) |
 
 ![pod](enclosure/renders/pod_assembly.png)

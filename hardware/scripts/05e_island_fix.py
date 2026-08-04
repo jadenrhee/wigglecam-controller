@@ -65,7 +65,7 @@ def main():
                     ndel += 1
     print(f"deleted {ndel} items")
 
-    # 3) re-add a via at (35.02, 11.38) — now over true 3V3 plane
+    # 3) re-add a via at (35.02, 11.38), now over true 3V3 plane
     def via(net, xy):
         v = pcbnew.PCB_VIA(b)
         v.SetPosition(mm(*xy))
