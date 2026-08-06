@@ -9,6 +9,7 @@
 #include "pico/stdlib.h"
 #include "hardware/watchdog.h"
 #include "hardware/i2c.h"
+#include "hardware/irq.h"
 #include "hardware/sync.h"
 
 #include "board.h"
@@ -157,7 +158,14 @@ int main(void) {
     i2c_slave_setup(i2c1, PIN_I2C_SLAVE_SDA, PIN_I2C_SLAVE_SCL,
                     I2C_SLAVE_ADDR, on_read, on_write);
 
-    watchdog_enable(500, true);
+    // Matched to FLASH_MAX_MS: the LEDs are switched off in flash_poll(),
+    // so a stalled main loop leaves them lit until the watchdog resets and
+    // the 100k pulldown pulls the sink reference to 0. Setting the timeout
+    // to the pulse budget means even that fault path can't exceed the
+    // thermal case the sinks are dispositioned for. Worst-case normal
+    // iteration is ~10 ms (two INA219 transfers, 2 ms timeout each), so
+    // this still leaves >10x margin.
+    watchdog_enable(FLASH_MAX_MS, true);
 
     uint32_t last_batt = 0, last_blink = 0;
     while (true) {
