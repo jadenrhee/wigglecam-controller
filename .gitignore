@@ -8,7 +8,7 @@ fp-info-cache
 ~*.lck
 .DS_Store
 
-# routing jars are fetched, not versioned (see tools/README.md)
+# routing jars are fetched, not versioned
 tools/*.jar
 
 # private working notes
