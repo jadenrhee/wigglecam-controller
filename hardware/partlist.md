@@ -25,7 +25,7 @@ value + package), and the 470 µF reservoir got its concrete pick.
 
 | Ref | Part | Package | LCSC | ~$ | Notes |
 |-----|------|---------|------|----|-------|
-| U1 | [AP2112K-3.3TRG1](https://www.lcsc.com/product-detail/C51118.html) 600 mA LDO | SOT-23-5 | **C51118** | 0.09 | in stock (131 k units) |
+| U1 | [AP2112K-3.3TRG1](https://www.lcsc.com/product-detail/C51118.html) 600 mA LDO | SOT-23-5 | **C51118** | 0.09 | **Alternate if short: [ME6211C33M5G-N](https://www.lcsc.com/product-detail/C82942.html) (C82942), 278 k in stock.** Same SOT-23-5 pinout (1 VIN, 2 GND/VSS, 3 EN/CE, 4 NC, 5 VOUT), 500 mA instead of 600 mA. The 3V3 rail draws 221 mA worst case (RP2040 200 mA peak + INA219 + WS2812), so 44 % of rating, and dropout at 200 mA is 260 mV against ~1.0 V of headroom from VSYS. Same 1 µF/10 µF caps. |
 | Q1 | [AO3401A](https://www.lcsc.com/product-detail/C15127.html) P-ch, reverse-polarity protection | SOT-23 | **C15127** | 0.05 | in stock, JLC **basic**; polarity-critical in the JLC preview |
 | D1, D2 | [SS34](https://www.lcsc.com/product-detail/C8678.html) 3 A Schottky, VBUS/VLED diode-OR | SMA | **C8678** | 0.03 | cathode bands polarity-critical in the JLC preview |
 | F1 | [BSMD1812-300-16V](https://www.lcsc.com/product-detail/C883162.html) PTC, 3 A hold | 1812 | **C883162** | - | Pi-5V input fuse |

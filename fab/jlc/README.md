@@ -43,6 +43,9 @@ here. Expect to resolve these:
 
 The one part that cannot simply be dropped is **U1 (AP2112K-3.3,
 SOT-23-5)**. It is the 3.3 V rail for the RP2040, flash, INA219 and
-WS2812, so the board does nothing without it. If it is out of stock,
-substitute only after checking the pinout matches: 1 VIN, 2 GND, 3 EN,
-4 NC, 5 VOUT. Many SOT-23-5 regulators use a different order.
+WS2812, so the board does nothing without it. If C51118 is short, use
+**ME6211C33M5G-N (C82942)**: same SOT-23-5 pinout, 500 mA instead of
+600 mA, which still leaves better than 2x margin on this board's
+221 mA worst case. Any other substitute needs its pinout checked
+against 1 VIN, 2 GND, 3 EN, 4 NC, 5 VOUT first, because plenty of
+SOT-23-5 regulators number those differently.
