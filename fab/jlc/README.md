@@ -29,12 +29,17 @@ so none of them is difficult.
 ## Parts to confirm in the picker
 
 Stock moves daily, so the last step happens in JLC's BOM tool, not
-here. Expect to resolve these:
+here. Note that JLC's assembly inventory is a different pool from
+LCSC's retail stock: a part can be buyable at LCSC and still show a
+shortfall in the BOM tool. When that happens the cheapest fix is
+usually to deselect it and hand-solder one bought from LCSC.
 
-- **R12, 1.2 k 0603 1 %** is the one line with no part number. Any
-  in-stock 1.2 k works. It sets the flash reference: 1.2 k settles at
-  0.508 V, giving 1.015 A per LED branch. **Do not substitute 1 k**
-  (0.434 V, 0.87 A) or 1.1 k (0.471 V, 0.94 A).
+Expect to resolve these:
+
+- **R12** is C22765 (1.2 k 0603 1 %, JLC basic). It sets the flash
+  reference: 1.2 k settles at 0.508 V, giving 1.015 A per LED branch.
+  **Do not substitute 1 k** (0.434 V, 0.87 A) or 1.1 k (0.471 V,
+  0.94 A).
 - **D4 (WS2812B)** is often flagged "Standard Only" on Economic
   assembly. Deselect and hand-solder it if so; it is a 4-pad 5050.
 - Anything showing an inventory shortfall: deselect it and hand-solder,
