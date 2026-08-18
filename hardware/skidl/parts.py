@@ -284,7 +284,7 @@ LCSC_R = {
     "330R":    "C23138",   # 0603WAF3300T5E
     "470R":    "C23179",   # 0603WAF4700T5E
     "1k":      "C21190",   # 0603WAF1001T5E
-    "1.18k":   "",         # 0603WAF1181T5E (E96, VREF divider bottom leg)
+    "1.2k":    "",         # VREF divider bottom leg; pick in-stock at order
                            #, confirm the LCSC number at order
     "4.7k":    "C23162",   # 0603WAF4701T5E
     "5.1k":    "C23186",   # 0603WAF5101T5E

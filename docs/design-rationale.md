@@ -33,10 +33,10 @@ with 3× margin.
 ## Flash driver
 Two independent op-amp constant-current sinks (½ LM358 + AO3400A +
 0.5 Ω sense each): I = VREF / 0.5 Ω, VREF = 0-0.5 V from an RC-filtered
-RP2040 PWM through a 5.6 k/1.18 k divider. The RC filter's 1 k sits in
-series with the top leg, so the bottom leg is the E96 1.18 k, not 1 k,
-and full scale settles at 3.3 × 1.18/(1 + 5.6 + 1.18) ≈ 0.50 V. A
-100 kΩ pulldown holds the reference at zero through reset, so the
+RP2040 PWM through a 5.6 k/1.2 k divider. The RC filter's 1 k sits in
+series with the top leg, so the bottom leg is 1.2 k, not 1 k,
+and full scale settles at 3.3 × 1.2/(1 + 5.6 + 1.2) ≈ 0.51 V
+(1.015 A/branch). A 100 kΩ pulldown holds the reference at zero through reset, so the
 flash cannot fire until firmware commands it. An AL8860 buck was
 rejected because from a 5 V rail it cannot drive a series LED string
 (Vf 6-9 V), which would mean one

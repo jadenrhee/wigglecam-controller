@@ -617,7 +617,7 @@
   {
    "ref": "R12",
    "name": "R",
-   "value": "1.18k",
+   "value": "1.2k",
    "footprint": "Resistor_SMD:R_0603_1608Metric",
    "lcsc": "",
    "pads": {

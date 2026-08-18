@@ -228,9 +228,9 @@ def flash_driver(u):
 
     Per branch: LM358 half drives AO3400A gate; source-sense 0.5 Ω 1 %
     closes the loop: I = VREF/0.5 Ω. VREF from GPIO16 PWM → RC (1 k /
-    1 µF, fc≈160 Hz) → 5.6 k over 1.18 k divider → 0-0.5 V for 0-100 %
+    1 µF, fc≈160 Hz) → 5.6 k over 1.2 k divider → 0-0.5 V for 0-100 %
     duty. The RC's 1 k is in series with the divider's top leg, so the
-    settled full-scale value is 3.3 × 1.18/(1 + 5.6 + 1.18) = 0.50 V;
+    settled full-scale value is 3.3 × 1.2/(1 + 5.6 + 1.2) = 0.508 V;
     a plain 1 k bottom leg would settle at 3.3/7.6 = 0.434 V → 0.87 A.
     100 k pulldown holds VREF at 0 V through boot (RP2040 GPIO defaults
     to hi-Z; pulldown wins → flash cannot fire before firmware).
@@ -250,8 +250,9 @@ def flash_driver(u):
     r_f = P.R("1k"); pwm & r_f & vref_raw
     c_f = P.C("1uF"); c_f[1] += vref_raw; c_f[2] += GND
     r_d1 = P.R("5.6k"); vref_raw & r_d1 & vref
-    # 1.18 k (E96), not 1 k: the RC's 1 k loads the divider (see above)
-    r_d2 = P.R("1.18k"); r_d2[1] += vref; r_d2[2] += GND
+    # 1.2 k, not 1 k: the RC's 1 k sits in series with the top leg and
+    # loads the divider (see above). 1.2 k settles at 0.508 V = 1.015 A.
+    r_d2 = P.R("1.2k"); r_d2[1] += vref; r_d2[2] += GND
 
     for half, (o, inn, inp) in enumerate(
             (("OUT1", "IN1-", "IN1+"), ("OUT2", "IN2-", "IN2+"))):

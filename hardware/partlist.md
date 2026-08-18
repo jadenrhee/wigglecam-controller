@@ -95,7 +95,7 @@ groupings match `fab/bom.csv`.
 | 330 Ω 1 % | R32-R35 | 0603 | **C23138** | UNI-ROYAL 0603WAF3300T5E |
 | 470 Ω 1 % | R30 | 0603 | **C23179** | UNI-ROYAL 0603WAF4700T5E |
 | 1 kΩ 1 % | R1, R10, R23, R25, R27, R29, R31 | 0603 | **C21190** | UNI-ROYAL 0603WAF1001T5E |
-| 1.18 kΩ 1 % (E96) | R12 | 0603 | confirm at order | UNI-ROYAL 0603WAF1181T5E, the VREF divider bottom leg; sized against the RC filter's 1 kΩ source impedance so full scale settles at 0.50 V (a plain 1 k here gives 0.434 V → 0.87 A/branch) |
+| 1.2 kΩ 1 % | R12 | 0603 | confirm at order | VREF divider bottom leg, sized against the RC filter's 1 kΩ source impedance: full scale settles at 0.508 V → 1.015 A/branch. A plain 1 k gives 0.434 V → 0.87 A, which is why this leg is not 1 k. E96 1.18 k is the exact fit (0.5005 V) but is thinly stocked; 1.2 k is the common-value substitute and the 1.5 % is immaterial |
 | 4.7 kΩ 1 % | R20, R21 | 0603 | **C23162** | UNI-ROYAL 0603WAF4701T5E |
 | 5.1 kΩ 1 % | R5, R6 | 0603 | **C23186** | UNI-ROYAL 0603WAF5101T5E |
 | 5.6 kΩ 1 % | R11 | 0603 | **C23189** | UNI-ROYAL 0603WAF5601T5E |

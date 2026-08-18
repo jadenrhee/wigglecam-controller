@@ -30,7 +30,7 @@ Signal routing, front copper red and back copper blue, planes hidden:
 | Layout | DRC clean, 0 violations and 0 unconnected, against JLCPCB's published 4-layer rules |
 | Verification | 24 checks measured off the finished layout, no failures. [Report](docs/verification-report.md) |
 | Firmware | builds clean under the Pico SDK |
-| Fab outputs | Gerbers, drill, BOM, and placement files in [fab/](fab/) |
+| Fab outputs | Gerbers, drill, BOM, and placement files in [fab/](fab/); the ready-to-upload set is [fab/jlc/](fab/jlc/) |
 
 ## Repo layout
 

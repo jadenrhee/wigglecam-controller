@@ -1500,7 +1500,7 @@
       (tstamps "3b1595e5-eba0-532f-a39c-5b8e6c9ead17"))
     (comp
       (ref "R12")
-      (value "1.18k")
+      (value "1.2k")
       (description "")
       (footprint "Resistor_SMD:R_0603_1608Metric")
       (fields
