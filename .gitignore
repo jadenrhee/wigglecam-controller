@@ -13,3 +13,6 @@ tools/*.jar
 
 # private working notes
 NOTES.md
+
+# Internal tooling and intermediates, not part of the published design record
+private/

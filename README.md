@@ -37,7 +37,6 @@ Signal routing, front copper red and back copper blue, planes hidden:
 | Path | Contents |
 |------|----------|
 | [hardware/skidl/](hardware/skidl/) | schematic as code, the source of record |
-| [hardware/scripts/](hardware/scripts/) | board generation, fab output, and verification tooling |
 | [hardware/kicad/](hardware/kicad/) | the board file and custom footprints |
 | [hardware/partlist.md](hardware/partlist.md) | every part, the reasoning behind it, and where to order it |
 | [fab/](fab/) | Gerbers, Excellon drill, `bom.csv`, `cpl.csv`, renders |

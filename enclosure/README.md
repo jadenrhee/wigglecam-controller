@@ -14,7 +14,7 @@ Raspberry Pi 5 flat on the rear floor.
 **The PCB cannot mis-mate:** every board-related feature (mounting
 bosses, encoder hole, LED pipe, button holes, USB-C window, cable
 slots) is generated from the routed `.kicad_pcb` via
-`hardware/scripts/08_enclosure_dims.py` → [board_dims.scad](board_dims.scad).
+the routed board → [board_dims.scad](board_dims.scad).
 If the layout ever changes, re-run the extractor and re-export.
 
 ## Ordering prints (no printer needed)
@@ -69,7 +69,7 @@ Waveshare 4.3" module outline/hole values here are typical but marked
 
 ```bash
 # dimensions from the PCB (KiCad's bundled python):
-KIPY hardware/scripts/08_enclosure_dims.py
+KIPY private/scripts/08_enclosure_dims.py
 # STLs + renders:
 OpenSCAD -o enclosure/stl/pod_front.stl -D 'PART="front"' enclosure/control_pod.scad
 OpenSCAD -o enclosure/stl/pod_back.stl  -D 'PART="back"'  enclosure/control_pod.scad

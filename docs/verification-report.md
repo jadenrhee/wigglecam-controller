@@ -1,6 +1,6 @@
 # Verification report
 
-Generated 2026-07-02 by `hardware/scripts/07_verify.py`, which measures the final `wigglecam.kicad_pcb` directly. Every value below is a measurement or a machine check, not an assertion.
+Generated 2026-07-02 by measuring the final `wigglecam.kicad_pcb` directly. Every value below is a measurement or a machine check, not an assertion.
 
 | # | Area | Rule | Measured | Verdict | Source |
 |---|------|------|----------|---------|--------|
@@ -35,6 +35,6 @@ These are called out rather than hidden:
 
 - **USB differential width** deviates from the commonly quoted 0.8 mm because that figure assumes a 2-layer 1.6 mm board; on JLC04161H-7628 the 90 Ω geometry is ≈0.36 mm (JLCPCB impedance calculator). Short 0.25/0.3 mm necks exist at the QFN pads and connector field; at USB-FS (12 Mbps) these are electrically negligible.
 - **USB series resistors** sit mid-corridor (~15 mm from the RP2040) rather than hard against it, a placement-congestion trade-off that is acceptable at FS speeds.
-- **A handful of via-in-pad plane taps** were used where the fanout was too dense for offset stubs (flagged in the layout scripts' NEEDS-REVIEW output). For hand assembly this is a non-issue; for reflow, request unfilled vias or accept minor solder wicking on those 0603 pads.
-- **Final-mile airwire closes** (scripts 05_finish through 05i) were validated only by the DRC gate; give the affected areas (encoder net ENC_A's cross-board route, the VLED island patches) a visual pass in the KiCad GUI before ordering.
+- **A handful of via-in-pad plane taps** were used where the fanout was too dense for offset stubs (flagged for review). For hand assembly this is a non-issue; for reflow, request unfilled vias or accept minor solder wicking on those 0603 pads.
+- **The last few link closures** were validated only by the DRC gate; give the affected areas (encoder net ENC_A's cross-board route, the VLED island patches) a visual pass in the KiCad GUI before ordering.
 - **VREG_1V1 pin-23 leg** routes via B.Cu under the crystal pocket; verify visually that it keeps clear of the XIN/XOUT region (DRC passes; the concern is aesthetic/EMI-marginal).
